@@ -1,0 +1,11 @@
+/node_modules
+/.vscode
+/dist
+
+.eslintrc.js
+.eslintignore
+.gitignore
+.npmrc
+.prettierrc.js
+babel.config.js
+postcss.config.js

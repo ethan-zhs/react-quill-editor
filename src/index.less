@@ -1,0 +1,36 @@
+.react-quill-editor {
+    * {
+        outline: none;
+    }
+
+    :global {
+        .ql-toolbar.ql-snow {
+            border: none;
+            padding: 0;
+        }
+
+        .ql-container.ql-snow {
+            border: none;
+        }
+
+        .ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {
+            width: auto;
+            display: flex;
+        }
+    }
+
+    .toolbar {
+        height: 45px;
+        background: rgb(250, 250, 250);        
+        box-shadow: 0 1px 5px 0 rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+    }
+    
+    .editor-content {
+        background: #fff;
+        margin-top: 30px;
+        height: 500px;
+    }
+}
+
