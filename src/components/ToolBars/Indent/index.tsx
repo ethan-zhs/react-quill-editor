@@ -33,12 +33,8 @@ class Indent extends React.Component<any, any> {
             // 获得当前格式
             const format = quill.getFormat(index, length)
 
-            // 判断当前格式是否斜体, 对文字设置斜体或取消斜体
-            if (format.indent) {
-                quill.removeFormat(index, length, { indent: '2em' })
-            } else {
-                quill.formatLine(index, length, { indent: '2em' })
-            }
+            // 判断当前格式是否缩进, 设置段落缩进或取消缩进
+            quill.formatLine(index, length, { indent: format.indent ? false : '2em' })
         }
     }
 }

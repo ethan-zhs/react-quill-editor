@@ -21,7 +21,8 @@ const toolListMapping: any = {
     table: () => import('./Table'),
     blockquote: () => import('./Blockquote'),
     line: () => import('./Line'),
-    code: () => import('./Code')
+    code: () => import('./Code'),
+    header: () => import('./Header')
 }
 
 const comLib: any = {}

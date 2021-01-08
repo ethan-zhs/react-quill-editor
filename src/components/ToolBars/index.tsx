@@ -21,6 +21,7 @@ class ToolBars extends React.Component<any, any> {
                 'italic',
                 'underline',
                 'strike',
+                'header',
                 'color',
                 'background',
                 'align',

@@ -28,7 +28,6 @@ class ReactQuillEditor extends React.Component<any, any> {
             [{ header: 1 }, { header: 2 }], // 用户自定义按钮值
             [{ list: 'ordered' }, { list: 'bullet' }],
             [{ script: 'sub' }, { script: 'super' }], // 上标/下标
-            [{ indent: '-1' }, { indent: '+1' }], // 减少缩进/缩进
             [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
             [{ font: [] }]
@@ -60,10 +59,16 @@ class ReactQuillEditor extends React.Component<any, any> {
                 whitelist: ['5px', '10px', '15px', '20px', '25px']
             },
             {
-                moduleName: 'padding',
-                styleName: 'padding',
+                moduleName: 'marginLeft',
+                styleName: 'margin-left',
                 scope: 'BLOCK',
-                whitelist: ['0 8px', '0 16px', '0 32px', '0 48px']
+                whitelist: ['0px', '8px', '16px', '32px', '48px']
+            },
+            {
+                moduleName: 'marginRight',
+                styleName: 'margin-right',
+                scope: 'BLOCK',
+                whitelist: ['0px', '8px', '16px', '32px', '48px']
             },
             {
                 moduleName: 'listStyleType',
@@ -84,7 +89,7 @@ class ReactQuillEditor extends React.Component<any, any> {
                 moduleName: 'letterSpacing',
                 styleName: 'letter-spacing',
                 scope: 'INLINE',
-                whitelist: ['0.5px', '1px', '2px']
+                whitelist: ['0px', '0.5px', '1px', '2px']
             },
             {
                 moduleName: 'size',
