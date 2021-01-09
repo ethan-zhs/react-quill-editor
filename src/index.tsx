@@ -25,12 +25,8 @@ class ReactQuillEditor extends React.Component<any, any> {
         const toolbarOptions = [
             ['code-block'],
 
-            [{ header: 1 }, { header: 2 }], // 用户自定义按钮值
             [{ list: 'ordered' }, { list: 'bullet' }],
-            [{ script: 'sub' }, { script: 'super' }], // 上标/下标
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
-            [{ font: [] }]
+            [{ script: 'sub' }, { script: 'super' }] // 上标/下标
         ]
 
         const moduleList = [
@@ -128,32 +124,6 @@ class ReactQuillEditor extends React.Component<any, any> {
                 <div id="editor" className={styles['editor-content']}></div>
             </div>
         )
-    }
-
-    handleHistoryClear = () => {
-        this.quill.history.clear()
-    }
-
-    handleFormatBrush = () => {
-        const { formatDelta } = this.state
-        let format = null
-
-        if (!formatDelta) {
-            format = this.state.quill.getFormat()
-        } else if (this.state.quill.getSelection()) {
-            // 获得选中文本范围
-            const { index, length } = this.state.quill.getSelection()
-
-            // 格式化文本样式
-            this.state.quill.formatText(index, length, formatDelta)
-
-            // 格式化行样式
-            this.state.quill.formatLine(index, length, formatDelta)
-        }
-
-        this.setState({
-            formatDelta: format
-        })
     }
 }
 
