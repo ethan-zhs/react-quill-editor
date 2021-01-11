@@ -10,16 +10,28 @@ class Align extends React.Component<any, any> {
         super(props)
 
         this.state = {
-            currAlign: 'justify'
+            currentAlign: 'justify'
         }
     }
 
+    componentDidMount() {
+        this.listenToKeyup()
+
+        this.props.quill.on('selection-change', this.selectionChangehandler)
+    }
+
+    componentWillUnmount() {
+        this.props.quill.off('selection-change', this.selectionChangehandler)
+    }
+
     render() {
-        const { currAlign } = this.state
+        const { currentAlign } = this.state
 
         // 按钮使用button, 避免编辑器失去焦点
         return (
             <Dropdown
+                active={true}
+                ToolWrapper={this.props.ToolWrapper}
                 onRef={(dropdown: any) => (this.dropdown = dropdown)}
                 content={
                     <div className={styles['align-list']}>
@@ -41,7 +53,7 @@ class Align extends React.Component<any, any> {
                     </div>
                 }
             >
-                <div>{this.getAlignSvg(currAlign)}</div>
+                <div>{this.getAlignSvg(currentAlign)}</div>
             </Dropdown>
         )
     }
@@ -72,7 +84,7 @@ class Align extends React.Component<any, any> {
 
         return (
             <svg viewBox="0 0 1024 1024" width="18" height="18">
-                <path d={d} fill="#343941"></path>
+                <path d={d}></path>
             </svg>
         )
     }
@@ -87,13 +99,38 @@ class Align extends React.Component<any, any> {
             // 获得选中文本范围
             const { index, length } = quill.getSelection()
 
-            // 判断当前格式是否斜体, 对文字设置斜体或取消斜体
             quill.formatLine(index, length, { align: type })
         }
 
         this.setState({
-            currAlign: type
+            currentAlign: type
         })
+    }
+
+    listenToKeyup = () => {
+        document.addEventListener('keydown', (e: any) => {
+            const keyCode = window.event ? e.keyCode : e.which
+
+            const { index = 0, length = 0 } = this.props.quill.getSelection() || {}
+
+            if (keyCode === 8 && index === 0) {
+                console.log(index, length)
+                this.handleAlign('justify')
+            }
+        })
+    }
+
+    selectionChangehandler = () => {
+        const { quill } = this.props
+
+        if (quill.getSelection()) {
+            const { index, length } = quill.getSelection()
+            const format = quill.getFormat(index, length)
+
+            this.setState({
+                currentAlign: format.align ? format.align : 'justify'
+            })
+        }
     }
 }
 

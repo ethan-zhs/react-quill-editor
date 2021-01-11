@@ -1,4 +1,45 @@
 .toolbars {
     display: flex;
     font-size: 12px;
+
+    .tool-wrapper {
+        width: 100%;
+        height: 100%;
+        fill: #343941;
+        position: relative;
+
+        :global {
+            .tooltips {
+                display: none;
+            }
+        }
+
+        &:hover {
+            background: #eee;
+
+            :global {
+                .tooltips {
+                    display: block;
+                }
+            }
+        }
+
+        &.disabled {           
+            color: #aaa;
+            fill: #aaa;
+            pointer-events: none;
+
+            button {
+                color: #aaa;
+            }
+
+            &:hover {
+                background: transparent;
+            }
+        }
+
+        &.actived {           
+            fill: #07c160;
+        }
+    }
 }

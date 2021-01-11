@@ -1,7 +1,11 @@
 import React from 'react'
+import classNames from 'classnames'
+import Tooltips from '@components/Tooltips'
+
 import styles from './index.less'
 
 import getToolItem from './mapping'
+import getLocales from '@src/locale'
 
 class ToolBars extends React.Component<any, any> {
     private _isMounted: boolean
@@ -91,7 +95,30 @@ class ToolBars extends React.Component<any, any> {
 
     renderToolItem = (tool: any) => {
         const { key, ToolItem } = tool
-        return <ToolItem key={key} {...this.props} />
+        return <ToolItem ToolWrapper={this.toolWrapper(key)} key={key} {...this.props} />
+    }
+
+    /**
+     * 包裹tool组件
+     * 实现通用的disable, tooltips, active,不需要在每个组件都实现一次
+     */
+    toolWrapper = (key: string) => {
+        const locale = getLocales('zh-CN')
+
+        return function (props: any) {
+            return (
+                <div
+                    className={classNames({
+                        [styles['tool-wrapper']]: true,
+                        [styles['disabled']]: props.disabled,
+                        [styles['actived']]: props.active
+                    })}
+                >
+                    {props.children}
+                    <Tooltips value={locale.tooltips[key]} />
+                </div>
+            )
+        }
     }
 }
 

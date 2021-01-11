@@ -28,11 +28,11 @@ class Popover extends React.Component<IProps, any> {
         const { children, content, visible } = this.props
 
         return (
-            <div className={styles['tmv-popover']}>
+            <div className={styles['popover']}>
                 {children}
                 {visible && (
-                    <div className={styles['tmv-popover-mark']} ref={this.popoverRef}>
-                        <div className={styles['tmv-popover-panel']}>{content}</div>
+                    <div className={styles['popover-mark']} ref={this.popoverRef}>
+                        <div className={styles['popover-panel']}>{content}</div>
                     </div>
                 )}
             </div>

@@ -1,0 +1,25 @@
+:global {
+    .tooltips {
+        position: absolute;
+        font-size: 12px;
+        padding: 4px 13px;
+        white-space: nowrap;
+        background: #fff;        
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.15);
+        bottom: 33px;
+        left: 50%;
+        transform: translateX(-50%);
+    
+        &::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;        
+            box-shadow: 4px 1px 4px 0 rgba(0,0,0,0.15);
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+        }
+    }
+}

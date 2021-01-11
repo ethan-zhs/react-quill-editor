@@ -19,6 +19,7 @@ class FontSize extends React.Component<any, any> {
 
         return (
             <Dropdown
+                ToolWrapper={this.props.ToolWrapper}
                 onRef={(dropdown: any) => (this.dropdown = dropdown)}
                 content={
                     <div className={styles['font-size-list']}>

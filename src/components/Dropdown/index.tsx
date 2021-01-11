@@ -19,19 +19,21 @@ class Dropdown extends React.Component<any, any> {
 
     render() {
         const { visible } = this.state
-        const { children, content } = this.props
+        const { children, content, ToolWrapper, active } = this.props
 
         // 按钮使用button, 避免编辑器失去焦点
         return (
             <Popover content={content} visible={visible} onVisibleChange={this.handleVisibleChange}>
-                <button className={styles['dropdown']}>
-                    {children}
-                    <span onClick={this.showPopover}>
-                        <svg viewBox="0 0 1877 1024" width="12" height="20">
-                            <path d="M952.5662596 696.50144616L1272.87530623 376.19239952a33.50865592 33.50865592 0 0 0-23.46254029-57.61933278H607.49839951a33.50865592 33.50865592 0 0 0-23.4625403 57.68414625l320.30904665 320.24423317a34.15679249 34.15679249 0 0 0 48.22135374 0z"></path>
-                        </svg>
-                    </span>
-                </button>
+                <ToolWrapper active={active}>
+                    <button className={styles['dropdown']}>
+                        {children}
+                        <span onClick={this.showPopover}>
+                            <svg viewBox="0 0 1877 1024" width="12" height="20">
+                                <path d="M952.5662596 696.50144616L1272.87530623 376.19239952a33.50865592 33.50865592 0 0 0-23.46254029-57.61933278H607.49839951a33.50865592 33.50865592 0 0 0-23.4625403 57.68414625l320.30904665 320.24423317a34.15679249 34.15679249 0 0 0 48.22135374 0z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                </ToolWrapper>
             </Popover>
         )
     }

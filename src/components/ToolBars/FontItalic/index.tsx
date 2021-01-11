@@ -10,13 +10,17 @@ class FontItalic extends React.Component<any, any> {
     }
 
     render() {
+        const { ToolWrapper } = this.props
+
         // 按钮使用button, 避免编辑器失去焦点
         return (
-            <button onClick={this.handleItalic}>
-                <svg viewBox="0 0 1024 1024" width="20" height="20">
-                    <path d="M640 853.333333H298.666667v-85.333333h124.885333l90.282667-512H384V170.666667h341.333333v85.333333h-124.885333l-90.282667 512H640z"></path>
-                </svg>
-            </button>
+            <ToolWrapper>
+                <button onClick={this.handleItalic}>
+                    <svg viewBox="0 0 1024 1024" width="20" height="20">
+                        <path d="M640 853.333333H298.666667v-85.333333h124.885333l90.282667-512H384V170.666667h341.333333v85.333333h-124.885333l-90.282667 512H640z"></path>
+                    </svg>
+                </button>
+            </ToolWrapper>
         )
     }
 

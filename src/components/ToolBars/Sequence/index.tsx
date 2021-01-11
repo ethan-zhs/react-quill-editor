@@ -4,6 +4,8 @@ import Dropdown from '@components/Dropdown'
 import styles from './index.less'
 
 class Sequence extends React.Component<any, any> {
+    private dropdown: any
+
     constructor(props: any) {
         super(props)
 
@@ -26,6 +28,8 @@ class Sequence extends React.Component<any, any> {
 
         return (
             <Dropdown
+                ToolWrapper={this.props.ToolWrapper}
+                onRef={(dropdown: any) => (this.dropdown = dropdown)}
                 content={
                     <div className={styles['indent-both-end-list']}>
                         {listArr.map((item: any) => (
@@ -41,10 +45,7 @@ class Sequence extends React.Component<any, any> {
                 }
             >
                 <svg viewBox="0 0 1024 1024" width="18" height="18">
-                    <path
-                        d="M384 128m64 0l384 0q64 0 64 64l0 0q0 64-64 64l-384 0q-64 0-64-64l0 0q0-64 64-64Z M192 192m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z M192 512m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z M192 832m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z M384 448m64 0l384 0q64 0 64 64l0 0q0 64-64 64l-384 0q-64 0-64-64l0 0q0-64 64-64Z M384 768m64 0l384 0q64 0 64 64l0 0q0 64-64 64l-384 0q-64 0-64-64l0 0q0-64 64-64Z"
-                        fill="#343941"
-                    ></path>
+                    <path d="M384 128m64 0l384 0q64 0 64 64l0 0q0 64-64 64l-384 0q-64 0-64-64l0 0q0-64 64-64Z M192 192m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z M192 512m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z M192 832m-64 0a64 64 0 1 0 128 0 64 64 0 1 0-128 0Z M384 448m64 0l384 0q64 0 64 64l0 0q0 64-64 64l-384 0q-64 0-64-64l0 0q0-64 64-64Z M384 768m64 0l384 0q64 0 64 64l0 0q0 64-64 64l-384 0q-64 0-64-64l0 0q0-64 64-64Z"></path>
                 </svg>
             </Dropdown>
         )
@@ -52,6 +53,9 @@ class Sequence extends React.Component<any, any> {
 
     handleFontSize = (listStyleType: string, type: string) => {
         const { quill } = this.props
+
+        // 调用Dropdown组件方法
+        this.dropdown.handleVisibleChange(false)
 
         if (quill.getSelection()) {
             // 获得选中文本范围
