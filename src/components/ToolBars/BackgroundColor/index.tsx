@@ -21,7 +21,7 @@ class BackgroundColor extends React.Component<any, any> {
             <Dropdown
                 ToolWrapper={this.props.ToolWrapper}
                 onRef={(dropdown: any) => (this.dropdown = dropdown)}
-                content={<ColorPicker onChange={this.handleColorChange} />}
+                content={<ColorPicker onChange={this.handleColorChange} value={currentColor} />}
             >
                 <div className={styles['background-color']}>
                     <svg viewBox="0 0 1024 1024" width="18" height="18" onClick={this.handleBackgroundColor}>

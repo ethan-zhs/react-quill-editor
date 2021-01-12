@@ -9,6 +9,15 @@
             overflow: hidden;
         }
 
+        .ql-editor ul > li::before,
+        .ql-editor ol > li::before {
+            display: none;
+        }
+
+        .ql-editor ol li:not(.ql-direction-rtl), .ql-editor ul li:not(.ql-direction-rtl) {
+            padding: 0;
+        }
+
         .ql-editor p {
             line-height: 1.5em;
         }

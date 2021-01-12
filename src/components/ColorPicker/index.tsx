@@ -21,6 +21,7 @@ class ColorPicker extends React.Component<any, any> {
 
     componentDidMount() {
         const { value } = this.props
+
         const hexStr = convert.rgb.hex(convert.hex.rgb(value || '000000'))
         const [h, s, v] = convert.hex.hsv(hexStr)
 
@@ -31,6 +32,7 @@ class ColorPicker extends React.Component<any, any> {
         const { type, h, s, v, hex } = this.state
 
         const hexValue = `#${convert.hsv.hex([h, s, v])}`
+        const recentColorList = this.getRecentColor() || []
 
         return (
             <div className={styles['color-picker']}>
@@ -46,7 +48,7 @@ class ColorPicker extends React.Component<any, any> {
                             </svg>
                         </div>
 
-                        {['#d6d6d6', '#ffacaa', '#ffb995', '#fffb00'].map((color: string) => (
+                        {recentColorList.map((color: string) => (
                             <span
                                 onClick={() => this.handleColorChange(color)}
                                 className={styles['color-box']}
@@ -194,8 +196,27 @@ class ColorPicker extends React.Component<any, any> {
         document.removeEventListener('mouseup', this.changeRibbonEnd)
     }
 
+    getRecentColor = () => {
+        const recentColor = localStorage.getItem('recent-color')
+        return recentColor ? JSON.parse(recentColor) : []
+    }
+
+    setRecentColor = (color: string) => {
+        const recentColorList = this.getRecentColor()
+
+        if (recentColorList.length >= 8) {
+            recentColorList.shift()
+        }
+
+        recentColorList.push(color)
+        localStorage.setItem('recent-color', JSON.stringify(Array.from(new Set(recentColorList))))
+    }
+
     handleColorChange = (color?: string) => {
         this.props.onChange(color)
+
+        // 本地记录color
+        color && this.setRecentColor(color)
     }
 }
 
