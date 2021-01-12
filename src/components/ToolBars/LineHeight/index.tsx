@@ -28,8 +28,6 @@ class SegmentLineHeight extends React.Component<any, any> {
         const { currentLineHeight } = this.state
         const { lineHightList = this.defaultLineHeightList } = this.props
 
-        console.log(currentLineHeight)
-
         return (
             <Dropdown
                 ToolWrapper={this.props.ToolWrapper}
@@ -68,7 +66,7 @@ class SegmentLineHeight extends React.Component<any, any> {
             // 获得选中文本范围
             const { index, length } = quill.getSelection()
 
-            quill.formatLine(index, length, { lineHeight: `${lineHeight}em` })
+            quill.formatLine(index, length, { lineHeight: lineHeight === 1 ? 'normal' : `${lineHeight}em` })
 
             this.setState({
                 currentLineHeight: lineHeight
@@ -84,7 +82,11 @@ class SegmentLineHeight extends React.Component<any, any> {
             const format = quill.getFormat(index, length)
 
             this.setState({
-                currentLineHeight: format.lineHeight ? format.lineHeight.replace('em', '') : 0
+                currentLineHeight: !format.lineHeight
+                    ? 0
+                    : format.lineHeight === 'normal'
+                    ? 1
+                    : format.lineHeight.replace('em', '')
             })
         }
     }

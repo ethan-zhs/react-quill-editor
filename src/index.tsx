@@ -3,7 +3,7 @@ import Quill from 'quill'
 
 import ToolBars from '@components/ToolBars'
 
-import { moduleRegister } from '@utils/quill'
+import { styleRegister } from '@utils/quill'
 
 import styles from './index.less'
 
@@ -23,13 +23,11 @@ class ReactQuillEditor extends React.Component<any, any> {
 
     componentDidMount() {
         const toolbarOptions = [
-            ['code-block'],
-
             [{ list: 'ordered' }, { list: 'bullet' }],
             [{ script: 'sub' }, { script: 'super' }] // 上标/下标
         ]
 
-        const moduleList = [
+        const styleList = [
             {
                 moduleName: 'indent',
                 styleName: 'text-indent',
@@ -40,7 +38,7 @@ class ReactQuillEditor extends React.Component<any, any> {
                 moduleName: 'lineHeight',
                 styleName: 'line-height',
                 scope: 'BLOCK',
-                whitelist: ['1em', '1.5em', '1.75em', '2em', '3em', '4em', '5em']
+                whitelist: ['normal', '1.5em', '1.75em', '2em', '3em', '4em', '5em']
             },
             {
                 moduleName: 'marginTop',
@@ -91,7 +89,10 @@ class ReactQuillEditor extends React.Component<any, any> {
                 moduleName: 'size',
                 styleName: 'font-size',
                 scope: 'INLINE',
-                whitelist: ['12px', '14px', '15px', '16px', '17px', '18px', '20px', '24px']
+                whitelist: new Array(42)
+                    .join('0')
+                    .split('')
+                    .map((item, index) => `${10 + index}px`)
             },
             {
                 moduleName: 'align',
@@ -101,7 +102,21 @@ class ReactQuillEditor extends React.Component<any, any> {
             }
         ]
 
-        moduleRegister(Quill, moduleList)
+        styleRegister(Quill, styleList)
+
+        const Inline = Quill.import('blots/inline')
+
+        class TagBlot extends Inline {
+            static blotName = 'tag'
+            static className = 'aur-tag'
+            static tagName = 'span'
+
+            static formats(): boolean {
+                return true
+            }
+        }
+
+        Quill.register(TagBlot)
 
         const quill = new Quill('#editor', {
             modules: { toolbar: '#toolbar' },

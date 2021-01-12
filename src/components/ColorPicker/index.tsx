@@ -1,6 +1,9 @@
 import React from 'react'
 import convert from 'color-convert'
 import classNames from 'classnames'
+
+import { COLOR_LIST } from './constants'
+
 import styles from './index.less'
 
 class ColorPicker extends React.Component<any, any> {
@@ -10,70 +13,31 @@ class ColorPicker extends React.Component<any, any> {
         this.state = {
             type: 'base',
             hex: '000000',
-            h: 180,
+            h: 10,
             s: 0,
             v: 0
         }
     }
 
+    componentDidMount() {
+        const { value } = this.props
+        const hexStr = convert.rgb.hex(convert.hex.rgb(value || '000000'))
+        const [h, s, v] = convert.hex.hsv(hexStr)
+
+        this.setState({ hex: hexStr, h, s, v })
+    }
+
     render() {
-        const { type } = this.state
+        const { type, h, s, v, hex } = this.state
 
-        const colorList = [
-            '#ffffff',
-            '#ffd7d5',
-            '#ffdaa9',
-            '#fffed5',
-            '#d4fa00',
-            '#73fcd6',
-            '#a5c8ff',
-            '#ffacd5',
-            '#ff7faa',
-            '#d6d6d6',
-            '#ffacaa',
-            '#ffb995',
-            '#fffb00',
-            '#73fa79',
-            '#00fcff',
-            '#78acfe',
-            '#d84fa9',
-            '#ff4f79',
-            '#b2b2b2',
-            '#d7aba9',
-            '#ff6827',
-            '#ffda51',
-            '#00d100',
-            '#00d5ff',
-            '#0080ff',
-            '#ac39ff',
-            '#ff2941',
-            '#888888',
-            '#7a4442',
-            '#ff4c00',
-            '#ffa900',
-            '#3da742',
-            '#3daad6',
-            '#0052ff',
-            '#7a4fd6',
-            '#d92142',
-            '#000000',
-            '#7b0c00',
-            '#ff4c41',
-            '#d6a841',
-            '#407600',
-            '#007aaa',
-            '#021eaa',
-            '#797baa',
-            '#ab1942'
-        ]
+        const hexValue = `#${convert.hsv.hex([h, s, v])}`
 
-        // 按钮使用button, 避免编辑器失去焦点
         return (
             <div className={styles['color-picker']}>
                 <div className={styles['color-picker-recent']}>
                     <div className={styles['color-picker-recent-title']}>最近使用颜色</div>
                     <div className={styles['color-picker-recent-wrap']}>
-                        <div className={styles['color-picker-clear']} onClick={this.handleColorClear}>
+                        <div className={styles['color-picker-clear']} onClick={() => this.handleColorChange()}>
                             <svg viewBox="0 50 1024 1024" width="20" height="20">
                                 <path
                                     d="M85.333333 955.733333a17.0496 17.0496 0 0 1-12.066133-29.1328l853.333333-853.333333a17.0496 17.0496 0 1 1 24.132267 24.132267l-853.333333 853.333333A17.015467 17.015467 0 0 1 85.333333 955.733333z"
@@ -117,7 +81,7 @@ class ColorPicker extends React.Component<any, any> {
 
                     {type === 'base' ? (
                         <div className={styles['color-base']}>
-                            {colorList.map((color: string) => (
+                            {COLOR_LIST.map((color: string) => (
                                 <span
                                     onClick={() => this.handleColorChange(color)}
                                     className={styles['color-box']}
@@ -128,50 +92,110 @@ class ColorPicker extends React.Component<any, any> {
                         </div>
                     ) : (
                         <div className={styles['color-panel']}>
-                            <div className={styles['color-panel-board']} style={{ backgroundColor: `red` }}>
+                            <div
+                                onClick={this.changeColorOnBoard}
+                                className={styles['color-panel-board']}
+                                style={{ backgroundColor: `#${convert.hsv.hex([h, 100, 100])}` }}
+                            >
                                 <div className={styles['color-panel-board-value']}></div>
                                 <div className={styles['color-panel-board-saturation']}></div>
+                                <span
+                                    className={styles['color-panel-pos']}
+                                    style={{ left: `${s}%`, top: `${100 - v}%` }}
+                                ></span>
                             </div>
-                            <div className={styles['color-panel-Hue']}></div>
+                            <div
+                                className={styles['color-panel-hue']}
+                                onClick={(e: any) => this.changeRibbon(e.clientY)}
+                            >
+                                <div
+                                    className={styles['color-panel-hue-point']}
+                                    onMouseDown={this.changeRibbonStart}
+                                    style={{ top: `${Math.round((h / 360) * 100)}%` }}
+                                ></div>
+                            </div>
                         </div>
                     )}
                 </div>
 
                 <div className={styles['color-picker-preview']}>
-                    <div className={styles['color-box']}></div>
+                    <div className={styles['color-box']} style={{ backgroundColor: hexValue }}></div>
                     <div className={styles['color-input']}>
                         <span>#</span>
-                        <input type="text" />
+                        <input
+                            type="text"
+                            value={hex}
+                            onBlur={this.hexInputBlur}
+                            onChange={this.handleHexChange}
+                            maxLength={6}
+                        />
                     </div>
-                    <a className={styles['color-picker-btn']}>确认</a>
+                    <a className={styles['color-picker-btn']} onClick={() => this.handleColorChange(hexValue)}>
+                        确认
+                    </a>
                 </div>
             </div>
         )
     }
 
     changeColorPickerType = (type: string) => {
-        this.setState({
-            type
-        })
+        this.setState({ type })
     }
 
-    changeRibbon = (clientX: number) => {
+    changeRibbon = (clientY: number) => {
         const { s, v } = this.state
-        const sliderElem: any = document.querySelector(`.${styles['color-panel-Hue']}`)
-        const { left, width } = sliderElem.getBoundingClientRect()
-        const pos = clientX - left
-        const h = Math.round(((pos > width ? width : pos < 0 ? 0 : pos) / width) * 360)
+        const sliderElem: any = document.querySelector(`.${styles['color-panel-hue']}`)
+        const { top, height } = sliderElem.getBoundingClientRect()
+        const pos = clientY - top
+        const h = Math.round(((pos > height ? height : pos < 0 ? 0 : pos) / height) * 360)
         const hex = convert.hsv.hex([h, s, v])
 
         this.setState({ hex, h })
     }
 
-    handleColorChange = (color: string) => {
-        this.props.onChange(color)
+    handleHexChange = (e: any) => {
+        this.setState({ hex: e.target.value })
     }
 
-    handleColorClear = () => {
-        console.log('clear')
+    hexInputBlur = () => {
+        const { hex } = this.state
+
+        const hexStr = convert.rgb.hex(convert.hex.rgb(hex))
+        const [h, s, v] = convert.hex.hsv(hexStr)
+
+        this.setState({ hex: hexStr, h, s, v })
+    }
+
+    changeColorOnBoard = (e: any) => {
+        const { left, top, width, height } = e.target.getBoundingClientRect()
+        const posX = (e.clientX - left) / width
+        const posY = (e.clientY - top) / height
+
+        const h = this.state.h
+        const s = Math.round((posX > 1 ? 1 : posX < 0 ? 0 : posX) * 100)
+        const v = 100 - Math.round((posY > 1 ? 1 : posY < 0 ? 0 : posY) * 100)
+
+        const hex = convert.hsv.hex([h, s, v])
+
+        this.setState({ hex, s, v })
+    }
+
+    changeRibbonStart = () => {
+        document.addEventListener('mousemove', this.changeRibbonMove)
+        document.addEventListener('mouseup', this.changeRibbonEnd)
+    }
+
+    changeRibbonMove = (e: any) => {
+        this.changeRibbon(e.clientY)
+    }
+
+    changeRibbonEnd = () => {
+        document.removeEventListener('mousemove', this.changeRibbonMove)
+        document.removeEventListener('mouseup', this.changeRibbonEnd)
+    }
+
+    handleColorChange = (color?: string) => {
+        this.props.onChange(color)
     }
 }
 

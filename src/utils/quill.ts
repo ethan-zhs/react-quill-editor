@@ -4,7 +4,7 @@
  * @param {Object} Quill quill 全局变量
  * @param {Array<Object>} moduleList 模块列表
  */
-export function moduleRegister(Quill: any, moduleList: any = []) {
+export function styleRegister(Quill: any, moduleList: any = []) {
     const Parchment = Quill.import('parchment')
 
     moduleList.forEach((m: any) => {

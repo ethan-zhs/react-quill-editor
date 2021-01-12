@@ -34,8 +34,7 @@ class Header extends React.Component<any, any> {
             // 获得当前格式
             const format = quill.getFormat(index, length)
 
-            // 判断当前格式是否斜体, 对文字设置斜体或取消斜体
-            quill.formatLine(index, length, { header: format.header ? false : 1 })
+            quill.format('header', format.header ? false : 1)
         }
     }
 }

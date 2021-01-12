@@ -56,6 +56,18 @@
                 height: 150px;
                 position: relative;
                 cursor: crosshair;
+
+                .color-panel-pos {
+                    position: absolute;
+                    border: 1px solid #fff;
+                    width: 6px;
+                    height: 6px;
+                    margin: -4px 0 0 -4px;
+                    left: -999px;
+                    top: -999px;
+                    box-shadow: 0 0 1px rgba(120,120,120,.7);
+                    z-index: 100;
+                }
     
                 .color-panel-board-value {
                     position: absolute;
@@ -78,11 +90,22 @@
                 }
             }
             
-            .color-panel-Hue {
+            .color-panel-hue {
                 height: 150px;
                 width: 20px;
                 margin-left: 10px;
+                position: relative;
                 background-image: linear-gradient(to bottom,red 0,#f90 10%,#cdff00 20%,#35ff00 30%,#0f6 40%,#00fffd 50%,#06f 60%,#3200ff 70%,#cd00ff 80%,#f09 90%,red 100%);
+                
+                .color-panel-hue-point {
+                    background: #fff;
+                    height: 6px;
+                    width: 80%;
+                    border-radius: 6px;
+                    position: absolute;
+                    left: 50%;
+                    transform: translate(-50%, -3px);
+                }
             }
         }
     }
@@ -142,6 +165,7 @@
             flex-shrink: 0;
             border: 1px solid #e7e7eb;
             color: #353535;
+            cursor: pointer;
         }
     }
 }

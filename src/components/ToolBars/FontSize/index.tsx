@@ -10,12 +10,21 @@ class FontSize extends React.Component<any, any> {
         super(props)
 
         this.state = {
-            currFontSize: 17
+            currFontSize: 17,
+            inputValue: '17px'
         }
     }
 
+    componentDidMount() {
+        this.props.quill.on('selection-change', this.selectionChangehandler)
+    }
+
+    componentWillUnmount() {
+        this.props.quill.off('selection-change', this.selectionChangehandler)
+    }
+
     render() {
-        const { currFontSize } = this.state
+        const { inputValue } = this.state
 
         return (
             <Dropdown
@@ -37,7 +46,15 @@ class FontSize extends React.Component<any, any> {
                 }
             >
                 <div className={styles['font-size']}>
-                    <span>{currFontSize}px</span>
+                    <input
+                        type="text"
+                        onClick={this.setSelectionRange}
+                        onChange={this.fontSizeInputChange}
+                        onBlur={this.fontSizeInputBlur}
+                        onKeyUp={this.handleInputKeyUp}
+                        className={styles['font-size-input']}
+                        value={inputValue}
+                    />
                 </div>
             </Dropdown>
         )
@@ -49,17 +66,58 @@ class FontSize extends React.Component<any, any> {
         // 调用Dropdown组件方法
         this.dropdown.handleVisibleChange(false)
 
+        // 用format可以在selection length为0时生成空白符标签span.ql-cursor,保证样式预设成功
+        // formatText则无法避免这个问题
+        quill.format('size', `${fontSize}px`)
+
+        this.setState({
+            currFontSize: fontSize,
+            inputValue: `${fontSize}px`
+        })
+    }
+
+    fontSizeInputChange = (e: any) => {
+        this.setState({
+            inputValue: e.target.value
+        })
+    }
+
+    fontSizeInputBlur = () => {
+        const { currFontSize, inputValue } = this.state
+        const realValue = Number(inputValue.replace('px', ''))
+
+        let newVal = currFontSize
+
+        if (realValue) {
+            const intVal = Math.round(realValue)
+            newVal = intVal < 10 ? 10 : intVal > 50 ? 50 : intVal
+        }
+
+        this.handleFontSize(newVal)
+    }
+
+    setSelectionRange = (e: any) => {
+        e.target?.select()
+    }
+
+    handleInputKeyUp = (e: any) => {
+        const keyCode = window.event ? e.keyCode : e.which
+        keyCode === 13 && e.target.blur()
+    }
+
+    selectionChangehandler = () => {
+        const { quill } = this.props
+
         if (quill.getSelection()) {
-            // 避免失去焦点设置失败
-            quill.focus()
-
-            // 获得选中文本范围
             const { index, length } = quill.getSelection()
+            const format = quill.getFormat(index, length)
 
-            // 判断当前格式是否斜体, 对文字设置斜体或取消斜体
-            quill.formatText(index, length, { size: `${fontSize}px` })
+            const size = format.size?.replace('px', '') ?? 17
 
-            this.setState({ currFontSize: fontSize })
+            this.setState({
+                currFontSize: size,
+                inputValue: `${size}px`
+            })
         }
     }
 }

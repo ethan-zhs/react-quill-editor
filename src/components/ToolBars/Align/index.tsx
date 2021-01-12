@@ -114,7 +114,6 @@ class Align extends React.Component<any, any> {
             const { index = 0, length = 0 } = this.props.quill.getSelection() || {}
 
             if (keyCode === 8 && index === 0) {
-                console.log(index, length)
                 this.handleAlign('justify')
             }
         })

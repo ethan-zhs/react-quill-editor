@@ -63,10 +63,7 @@ class WordSpacing extends React.Component<any, any> {
         this.dropdown.handleVisibleChange(false)
 
         if (quill.getSelection()) {
-            // 获得选中文本范围
-            const { index, length } = quill.getSelection()
-
-            quill.formatText(index, length, { letterSpacing: !letterSpacing ? false : `${letterSpacing}px` })
+            quill.format('letterSpacing', !letterSpacing ? false : `${letterSpacing}px`)
 
             this.setState({
                 currentSpacing: letterSpacing
