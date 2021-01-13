@@ -1,7 +1,7 @@
 import Quill from 'quill'
-const Block = Quill.import('blots/block/embed')
+const Embed = Quill.import('blots/block/embed')
 
-class hrBlot extends Block {
+class HrEmbed extends Embed {
     static blotName = 'hr'
     static tagName = 'hr'
 
@@ -19,4 +19,4 @@ class hrBlot extends Block {
     }
 }
 
-Quill.register(hrBlot)
+Quill.register(HrEmbed)
