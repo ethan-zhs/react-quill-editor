@@ -3,12 +3,14 @@ import Quill from 'quill'
 
 import ToolBars from '@components/ToolBars'
 
-import { styleRegister } from '@utils/quill'
+import { styleRegister, getKeyboardBindings } from '@utils/quill'
 
-import styles from './index.less'
+import './embed/Hr'
 
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.core.css'
+
+import styles from './index.less'
 
 class ReactQuillEditor extends React.Component<any, any> {
     quill: any
@@ -99,54 +101,7 @@ class ReactQuillEditor extends React.Component<any, any> {
 
         styleRegister(Quill, styleList)
 
-        const Block = Quill.import('blots/block/embed')
-
-        class hrBlot extends Block {
-            static blotName = 'hr'
-            static tagName = 'hr'
-
-            static create(value: any) {
-                const node = super.create(value)
-                node.setAttribute(
-                    'style',
-                    'border-style: solid;border-width: 1px 0 0;border-color: rgba(0,0,0,0.1);-webkit-transform-origin: 0 0;-webkit-transform: scale(1, 0.5);transform-origin: 0 0;transform: scale(1, 0.5);margin: 5px 0;'
-                )
-                return node
-            }
-
-            static formats(): boolean {
-                return true
-            }
-        }
-
-        Quill.register(hrBlot)
-
-        const formatList = [
-            'textIndent',
-            'blockquote',
-            'align',
-            'marginLeft',
-            'marginRight',
-            'marginTop',
-            'marginBottom',
-            'lineHeight'
-        ]
-
-        const bindings = {
-            exitBlockWithEnter: {
-                key: 'backspace',
-                format: formatList,
-                collapsed: true,
-                empty: true,
-                handler: function (range: any, context: any) {
-                    formatList.forEach((key: string) => {
-                        if (context.format[key]) {
-                            this.quill.format(key, false)
-                        }
-                    })
-                }
-            }
-        }
+        const bindings = getKeyboardBindings()
 
         const quill = new Quill('#editor', {
             modules: { toolbar: '#toolbar', keyboard: { bindings: bindings } },

@@ -17,3 +17,34 @@ export function styleRegister(Quill: any, moduleList: any = []) {
         Quill.register({ [`formats/${m.moduleName}`]: moduleStyle }, true)
     })
 }
+
+export function getKeyboardBindings() {
+    const formatList = [
+        'textIndent',
+        'blockquote',
+        'align',
+        'marginLeft',
+        'marginRight',
+        'marginTop',
+        'marginBottom',
+        'lineHeight'
+    ]
+
+    const bindings = {
+        exitBlockWithBackspace: {
+            key: 'backspace',
+            format: formatList,
+            collapsed: true,
+            empty: true,
+            handler: function (range: any, context: any) {
+                formatList.forEach((key: string) => {
+                    if (context.format[key]) {
+                        this.quill.format(key, false)
+                    }
+                })
+            }
+        }
+    }
+
+    return bindings
+}

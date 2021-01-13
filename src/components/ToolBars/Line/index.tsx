@@ -32,12 +32,8 @@ class Line extends React.Component<any, any> {
 
         // 获得选中文本范围
         const { index } = quill.getSelection()
-
-        quill.insertEmbed(index, 'hr', { marginTop: '20px' })
+        quill.insertEmbed(index, 'hr', {})
         quill.setSelection(index + 1, 0)
-        quill.blur()
-        quill.focus()
-        console.log(quill.getSelection())
     }
 }
 
