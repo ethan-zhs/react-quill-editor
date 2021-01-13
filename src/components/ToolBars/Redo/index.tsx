@@ -34,6 +34,8 @@ class Redo extends React.Component<any, any> {
     }
 
     handleRedo = () => {
+        // 编辑器获得焦点
+        this.props.quill.focus()
         this.props.quill.history.redo()
     }
 

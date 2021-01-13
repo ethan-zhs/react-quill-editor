@@ -52,6 +52,7 @@ class FontColor extends React.Component<any, any> {
         const { currentColor } = this.state
         const { quill } = this.props
 
+        // 编辑器获得焦点
         quill.focus()
 
         if (quill.getSelection()) {

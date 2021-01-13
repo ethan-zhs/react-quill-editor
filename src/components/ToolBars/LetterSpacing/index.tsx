@@ -17,11 +17,13 @@ class WordSpacing extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        this.props.quill.on('selection-change', this.selectionChangehandler)
+        this.props.quill.on('selection-change', this.editorChangeHandler)
+        this.props.quill.on('text-change', this.editorChangeHandler)
     }
 
     componentWillUnmount() {
-        this.props.quill.off('selection-change', this.selectionChangehandler)
+        this.props.quill.off('selection-change', this.editorChangeHandler)
+        this.props.quill.off('text-change', this.editorChangeHandler)
     }
 
     render() {
@@ -37,7 +39,7 @@ class WordSpacing extends React.Component<any, any> {
                         {letterSpacingList.map((d: number) => (
                             <div
                                 key={d}
-                                onClick={() => this.handleFontSize(d)}
+                                onClick={() => this.handleLetterSpacing(d)}
                                 className={classNames({
                                     [styles['letter-spacing-item']]: true,
                                     [styles['letter-spacing-active']]: currentSpacing == d
@@ -56,22 +58,23 @@ class WordSpacing extends React.Component<any, any> {
         )
     }
 
-    handleFontSize = (letterSpacing: number) => {
+    handleLetterSpacing = (letterSpacing: number) => {
         const { quill } = this.props
 
         // 调用Dropdown组件方法
         this.dropdown.handleVisibleChange(false)
 
-        if (quill.getSelection()) {
-            quill.format('letterSpacing', !letterSpacing ? false : `${letterSpacing}px`)
+        // 编辑器获得焦点
+        quill.focus()
 
-            this.setState({
-                currentSpacing: letterSpacing
-            })
-        }
+        quill.format('letterSpacing', !letterSpacing ? false : `${letterSpacing}px`)
+
+        this.setState({
+            currentSpacing: letterSpacing
+        })
     }
 
-    selectionChangehandler = () => {
+    editorChangeHandler = () => {
         const { quill } = this.props
 
         if (quill.getSelection()) {

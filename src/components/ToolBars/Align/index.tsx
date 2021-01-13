@@ -10,18 +10,19 @@ class Align extends React.Component<any, any> {
         super(props)
 
         this.state = {
-            currentAlign: 'justify'
+            currentAlign: 'justify',
+            index: 0
         }
     }
 
     componentDidMount() {
-        this.listenToKeyup()
-
-        this.props.quill.on('selection-change', this.selectionChangehandler)
+        this.props.quill.on('selection-change', this.editorChangeHandler)
+        this.props.quill.on('text-change', this.editorChangeHandler)
     }
 
     componentWillUnmount() {
-        this.props.quill.off('selection-change', this.selectionChangehandler)
+        this.props.quill.off('selection-change', this.editorChangeHandler)
+        this.props.quill.off('text-change', this.editorChangeHandler)
     }
 
     render() {
@@ -79,6 +80,8 @@ class Align extends React.Component<any, any> {
                     'M128 128m48 0l672 0q48 0 48 48l0 0q0 48-48 48l-672 0q-48 0-48-48l0 0q0-48 48-48Z M128 352m48 0l672 0q48 0 48 48l0 0q0 48-48 48l-672 0q-48 0-48-48l0 0q0-48 48-48Z M128 576m48 0l672 0q48 0 48 48l0 0q0 48-48 48l-672 0q-48 0-48-48l0 0q0-48 48-48Z M128 800m48 0l672 0q48 0 48 48l0 0q0 48-48 48l-672 0q-48 0-48-48l0 0q0-48 48-48Z'
                 break
             default:
+                d =
+                    'M128 128m48 0l672 0q48 0 48 48l0 0q0 48-48 48l-672 0q-48 0-48-48l0 0q0-48 48-48Z M128 352m48 0l672 0q48 0 48 48l0 0q0 48-48 48l-672 0q-48 0-48-48l0 0q0-48 48-48Z M128 576m48 0l672 0q48 0 48 48l0 0q0 48-48 48l-672 0q-48 0-48-48l0 0q0-48 48-48Z M128 800m48 0l672 0q48 0 48 48l0 0q0 48-48 48l-672 0q-48 0-48-48l0 0q0-48 48-48Z'
                 break
         }
 
@@ -89,47 +92,34 @@ class Align extends React.Component<any, any> {
         )
     }
 
-    handleAlign = (type: string) => {
+    handleAlign = (type?: string) => {
         const { quill } = this.props
 
         // 调用Dropdown组件方法
         this.dropdown.handleVisibleChange(false)
 
-        if (quill.getSelection()) {
-            // 获得选中文本范围
-            const { index, length } = quill.getSelection()
+        // 编辑器获得焦点
+        quill.focus()
 
-            quill.formatLine(index, length, { align: type })
-        }
+        quill.format('align', type)
 
         this.setState({
             currentAlign: type
         })
     }
 
-    listenToKeyup = () => {
-        document.addEventListener('keydown', (e: any) => {
-            const keyCode = window.event ? e.keyCode : e.which
-
-            const { index = 0, length = 0 } = this.props.quill.getSelection() || {}
-
-            if (keyCode === 8 && index === 0) {
-                this.handleAlign('justify')
-            }
-        })
-    }
-
-    selectionChangehandler = () => {
+    editorChangeHandler = () => {
         const { quill } = this.props
 
-        if (quill.getSelection()) {
-            const { index, length } = quill.getSelection()
-            const format = quill.getFormat(index, length)
+        // 编辑器获得焦点
+        quill.focus()
 
-            this.setState({
-                currentAlign: format.align ? format.align : 'justify'
-            })
-        }
+        const { index, length } = quill.getSelection()
+        const format = quill.getFormat(index, length)
+
+        this.setState({
+            currentAlign: format.align
+        })
     }
 }
 

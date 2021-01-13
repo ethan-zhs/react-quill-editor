@@ -22,14 +22,9 @@ class ReactQuillEditor extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        const toolbarOptions = [
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            [{ script: 'sub' }, { script: 'super' }] // 上标/下标
-        ]
-
         const styleList = [
             {
-                moduleName: 'indent',
+                moduleName: 'textIndent',
                 styleName: 'text-indent',
                 scope: 'BLOCK',
                 whitelist: ['2em']
@@ -104,22 +99,57 @@ class ReactQuillEditor extends React.Component<any, any> {
 
         styleRegister(Quill, styleList)
 
-        const Inline = Quill.import('blots/inline')
+        const Block = Quill.import('blots/block/embed')
 
-        class TagBlot extends Inline {
-            static blotName = 'tag'
-            static className = 'aur-tag'
-            static tagName = 'span'
+        class hrBlot extends Block {
+            static blotName = 'hr'
+            static tagName = 'hr'
+
+            static create(value: any) {
+                const node = super.create(value)
+                node.setAttribute(
+                    'style',
+                    'border-style: solid;border-width: 1px 0 0;border-color: rgba(0,0,0,0.1);-webkit-transform-origin: 0 0;-webkit-transform: scale(1, 0.5);transform-origin: 0 0;transform: scale(1, 0.5);margin: 5px 0;'
+                )
+                return node
+            }
 
             static formats(): boolean {
                 return true
             }
         }
 
-        Quill.register(TagBlot)
+        Quill.register(hrBlot)
+
+        const formatList = [
+            'textIndent',
+            'blockquote',
+            'align',
+            'marginLeft',
+            'marginRight',
+            'marginTop',
+            'marginBottom',
+            'lineHeight'
+        ]
+
+        const bindings = {
+            exitBlockWithEnter: {
+                key: 'backspace',
+                format: formatList,
+                collapsed: true,
+                empty: true,
+                handler: function (range: any, context: any) {
+                    formatList.forEach((key: string) => {
+                        if (context.format[key]) {
+                            this.quill.format(key, false)
+                        }
+                    })
+                }
+            }
+        }
 
         const quill = new Quill('#editor', {
-            modules: { toolbar: '#toolbar' },
+            modules: { toolbar: '#toolbar', keyboard: { bindings: bindings } },
             theme: 'snow'
         })
 

@@ -10,11 +10,13 @@ class FontUnderline extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        this.props.quill.on('selection-change', this.selectionChangehandler)
+        this.props.quill.on('selection-change', this.editorChangeHandler)
+        this.props.quill.on('text-change', this.editorChangeHandler)
     }
 
     componentWillUnmount() {
-        this.props.quill.off('selection-change', this.selectionChangehandler)
+        this.props.quill.off('selection-change', this.editorChangeHandler)
+        this.props.quill.off('text-change', this.editorChangeHandler)
     }
 
     render() {
@@ -36,23 +38,24 @@ class FontUnderline extends React.Component<any, any> {
     handleUnderline = () => {
         const { quill } = this.props
 
-        if (quill.getSelection()) {
-            // 获得选中文本范围
-            const { index, length } = quill.getSelection()
+        // 编辑器获得焦点
+        quill.focus()
 
-            const format = quill.getFormat(index, length)
+        // 获得选中文本范围
+        const { index, length } = quill.getSelection()
 
-            // 用format可以在selection length为0时生成空白符标签span.ql-cursor,保证样式预设成功
-            // formatText则无法避免这个问题
-            quill.format('underline', !format.underline)
+        const format = quill.getFormat(index, length)
 
-            this.setState({
-                isActive: !format.underline
-            })
-        }
+        // 用format可以在selection length为0时生成空白符标签span.ql-cursor,保证样式预设成功
+        // formatText则无法避免这个问题
+        quill.format('underline', !format.underline)
+
+        this.setState({
+            isActive: !format.underline
+        })
     }
 
-    selectionChangehandler = () => {
+    editorChangeHandler = () => {
         const { quill } = this.props
 
         if (quill.getSelection()) {

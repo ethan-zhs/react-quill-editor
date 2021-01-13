@@ -35,7 +35,7 @@ class Sequence extends React.Component<any, any> {
                         {listArr.map((item: any) => (
                             <div
                                 key={item.value}
-                                onClick={() => this.handleFontSize(item.value, item.type)}
+                                onClick={() => this.handleSequence(item.value, item.type)}
                                 className={styles['indent-both-end-item']}
                             >
                                 {item.name}
@@ -51,20 +51,17 @@ class Sequence extends React.Component<any, any> {
         )
     }
 
-    handleFontSize = (listStyleType: string, type: string) => {
+    handleSequence = (listStyleType: string, type: string) => {
         const { quill } = this.props
 
         // 调用Dropdown组件方法
         this.dropdown.handleVisibleChange(false)
 
-        if (quill.getSelection()) {
-            // 获得选中文本范围
-            const { index, length } = quill.getSelection()
+        // 编辑器获得焦点
+        quill.focus()
 
-            // 判断当前格式是否斜体, 对文字设置斜体或取消斜体
-            quill.formatLine(index, length, { list: type })
-            quill.formatLine(index, length, { listStyleType: listStyleType })
-        }
+        quill.format('list', type)
+        quill.format('listStyleType', listStyleType)
     }
 }
 

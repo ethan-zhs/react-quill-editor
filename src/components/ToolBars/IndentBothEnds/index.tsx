@@ -16,11 +16,13 @@ class IndentBothEnds extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        this.props.quill.on('selection-change', this.selectionChangehandler)
+        this.props.quill.on('selection-change', this.editorChangeHandler)
+        this.props.quill.on('text-change', this.editorChangeHandler)
     }
 
     componentWillUnmount() {
-        this.props.quill.off('selection-change', this.selectionChangehandler)
+        this.props.quill.off('selection-change', this.editorChangeHandler)
+        this.props.quill.off('text-change', this.editorChangeHandler)
     }
 
     render() {
@@ -61,22 +63,22 @@ class IndentBothEnds extends React.Component<any, any> {
         // 调用Dropdown组件方法
         this.dropdown.handleVisibleChange(false)
 
-        if (quill.getSelection()) {
-            // 获得选中文本范围
-            const { index, length } = quill.getSelection()
+        // 编辑器获得焦点
+        quill.focus()
 
-            // 判断当前格式是否斜体, 对文字设置斜体或取消斜体
-            const value = indentNum == 0 ? false : `${indentNum}px`
-            quill.formatLine(index, length, { marginLeft: value })
-            quill.formatLine(index, length, { marginRight: value })
+        // 获得选中文本范围
+        const { index, length } = quill.getSelection()
 
-            this.setState({
-                currentIndent: indentNum
-            })
-        }
+        const value = indentNum == 0 ? false : `${indentNum}px`
+        quill.formatLine(index, length, { marginLeft: value })
+        quill.formatLine(index, length, { marginRight: value })
+
+        this.setState({
+            currentIndent: indentNum
+        })
     }
 
-    selectionChangehandler = () => {
+    editorChangeHandler = () => {
         const { quill } = this.props
 
         if (quill.getSelection()) {

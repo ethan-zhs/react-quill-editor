@@ -15,7 +15,7 @@ class Line extends React.Component<any, any> {
         // 按钮使用button, 避免编辑器失去焦点
         return (
             <ToolWrapper>
-                <button onClick={this.handleFontSize}>
+                <button onClick={this.handleLine}>
                     <svg viewBox="0 0 1024 1024" width="20" height="20">
                         <path d="M904 476H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8z"></path>
                     </svg>
@@ -24,16 +24,20 @@ class Line extends React.Component<any, any> {
         )
     }
 
-    handleFontSize = () => {
+    handleLine = () => {
         const { quill } = this.props
 
-        if (quill.getSelection()) {
-            // 获得选中文本范围
-            const { index, length } = quill.getSelection()
+        // 编辑器获得焦点
+        quill.focus()
 
-            // 判断当前格式是否斜体, 对文字设置斜体或取消斜体
-            quill.formatText(index, length, { size: '17px' })
-        }
+        // 获得选中文本范围
+        const { index } = quill.getSelection()
+
+        quill.insertEmbed(index, 'hr', { marginTop: '20px' })
+        quill.setSelection(index + 1, 0)
+        quill.blur()
+        quill.focus()
+        console.log(quill.getSelection())
     }
 }
 

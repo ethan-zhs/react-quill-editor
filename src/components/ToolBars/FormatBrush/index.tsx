@@ -30,9 +30,12 @@ class FormatBrush extends React.Component<any, any> {
         const { quill } = this.props
         let format = null
 
+        // 编辑器获得焦点
+        quill.focus()
+
         if (!formatDelta) {
             format = quill.getFormat()
-        } else if (quill.getSelection()) {
+        } else {
             // 获得选中文本范围
             const { index, length } = quill.getSelection()
 

@@ -34,6 +34,8 @@ class Undo extends React.Component<any, any> {
     }
 
     handleUndo = () => {
+        // 编辑器获得焦点
+        this.props.quill.focus()
         this.props.quill.history.undo()
     }
 
