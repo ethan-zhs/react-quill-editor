@@ -30,8 +30,10 @@ class Code extends React.Component<any, any> {
         // 编辑器获得焦点
         quill.focus()
 
-        // 清除选中文本样式
-        quill.format('code-block', true)
+        // 获得选中文本范围
+        const { index } = quill.getSelection()
+
+        quill.format('codeblock', true)
     }
 }
 

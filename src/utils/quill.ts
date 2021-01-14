@@ -27,7 +27,8 @@ export function getKeyboardBindings() {
         'marginRight',
         'marginTop',
         'marginBottom',
-        'lineHeight'
+        'lineHeight',
+        'header'
     ]
 
     const bindings = {

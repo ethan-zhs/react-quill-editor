@@ -1,0 +1,36 @@
+.code-block {
+    font-size: 14px;
+    margin: 10px 0;
+    display: block;
+    overflow-x: auto;
+    padding: 1em 1em 1em 3em;
+    color: #333;
+    position: relative;
+    background-color: rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+    border-radius: 2px;
+    counter-reset: line;
+    line-height: 26px;
+    white-space: normal;
+
+    code {
+        text-align: left;
+        font-size: 14px;
+        display: block;
+        white-space: pre-wrap;
+        position: relative;
+        font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+
+        &::before {
+            position: absolute;
+            min-width: 1.5em;
+            text-align: right;
+            left: -2.5em;
+            counter-increment: line;
+            content: counter(line);
+            display: inline;
+            margin-right: 12px;
+            color: rgba(0,0,0,0.15);
+        }
+    }
+}

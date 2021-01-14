@@ -39,7 +39,11 @@ class ToolBars extends React.Component<any, any> {
                 'table',
                 'blockquote',
                 'line',
-                'code'
+                'codeblock',
+                'audio',
+                'vote',
+                'link',
+                'expression'
             ]
         }
     }

@@ -111,15 +111,14 @@ class Align extends React.Component<any, any> {
     editorChangeHandler = () => {
         const { quill } = this.props
 
-        // 编辑器获得焦点
-        quill.focus()
+        if (quill.getSelection()) {
+            const { index, length } = quill.getSelection()
+            const format = quill.getFormat(index, length)
 
-        const { index, length } = quill.getSelection()
-        const format = quill.getFormat(index, length)
-
-        this.setState({
-            currentAlign: format.align
-        })
+            this.setState({
+                currentAlign: format.align
+            })
+        }
     }
 }
 

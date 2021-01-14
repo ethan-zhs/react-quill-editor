@@ -13,10 +13,8 @@ class HrEmbed extends Embed {
         )
         return node
     }
-
-    static formats(): boolean {
-        return true
-    }
 }
 
 Quill.register(HrEmbed)
+
+export default HrEmbed

@@ -23,6 +23,11 @@ export default {
         table: 'Table',
         blockquote: 'Blockquote',
         line: 'Line',
-        code: 'Code'
+        codeblock: 'Insert code block',
+        audio: 'Insert audio',
+        video: 'Insert video',
+        vote: 'Insert vote',
+        link: 'Insert link',
+        expression: 'Expression'
     }
 }

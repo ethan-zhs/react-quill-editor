@@ -21,8 +21,12 @@ const toolListMapping: any = {
     table: () => import('./Table'),
     blockquote: () => import('./Blockquote'),
     line: () => import('./Line'),
-    code: () => import('./Code'),
-    header: () => import('./Header')
+    codeblock: () => import('./CodeBlock'),
+    header: () => import('./Header'),
+    audio: () => import('./Audio'),
+    vote: () => import('./Vote'),
+    link: () => import('./Link'),
+    expression: () => import('./Expression')
 }
 
 const comLib: any = {}

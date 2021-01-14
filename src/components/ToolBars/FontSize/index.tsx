@@ -117,7 +117,7 @@ class FontSize extends React.Component<any, any> {
             const { index, length } = quill.getSelection()
             const format = quill.getFormat(index, length)
 
-            const size = format.size?.replace('px', '') ?? 17
+            const size = format.size ? format.size.replace('px', '') : 17
 
             this.setState({
                 currFontSize: size,
