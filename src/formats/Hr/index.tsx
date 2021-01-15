@@ -9,7 +9,7 @@ class HrEmbed extends Embed {
         const node = super.create(value)
         node.setAttribute(
             'style',
-            'border-style: solid;border-width: 1px 0 0;border-color: rgba(0,0,0,0.1);-webkit-transform-origin: 0 0;-webkit-transform: scale(1, 0.5);transform-origin: 0 0;transform: scale(1, 0.5);margin: 5px 0;'
+            'border-style: solid;border-width: 1px 0 0;border-color: rgba(0,0,0,0.1);margin: 5px 0;'
         )
         return node
     }

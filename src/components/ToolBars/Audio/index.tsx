@@ -33,8 +33,10 @@ class Audio extends React.Component<any, any> {
         // 获得选中文本范围
         const { index, length } = quill.getSelection()
 
+        console.log(quill.getFormat(index, length))
+
         // 清除选中文本样式
-        quill.removeFormat(index, length)
+        quill.format('blockquote1', true)
     }
 }
 

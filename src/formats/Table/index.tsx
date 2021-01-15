@@ -1,20 +1,39 @@
 import Quill from 'quill'
+import React from 'react'
+import ReactDOM from 'react-dom'
+
 const Embed = Quill.import('blots/block/embed')
 
-class HrEmbed extends Embed {
-    static blotName = 'hr'
-    static tagName = 'hr'
+function Aaa() {
+    return (
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    )
+}
+
+class TableEmbed extends Embed {
+    static blotName = 'table'
+    static tagName = 'table'
 
     static create(value: any) {
         const node = super.create(value)
-        node.setAttribute(
-            'style',
-            'border-style: solid;border-width: 1px 0 0;border-color: rgba(0,0,0,0.1);-webkit-transform-origin: 0 0;-webkit-transform: scale(1, 0.5);transform-origin: 0 0;transform: scale(1, 0.5);margin: 5px 0;'
-        )
+        ReactDOM.render(<Aaa />, node)
         return node
+    }
+
+    format(format: any, value: any) {
+        console.log(format, value)
     }
 }
 
-Quill.register(HrEmbed)
+Quill.register(TableEmbed)
 
-export default HrEmbed
+export default TableEmbed

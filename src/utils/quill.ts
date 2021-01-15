@@ -28,13 +28,28 @@ export function getKeyboardBindings() {
         'marginTop',
         'marginBottom',
         'lineHeight',
-        'header'
+        'header',
+        'code-block'
     ]
 
     const bindings = {
         exitBlockWithBackspace: {
             key: 'backspace',
             format: formatList,
+            collapsed: true,
+            offset: 0,
+            handler: function (range: any, context: any) {
+                formatList.forEach((key: string) => {
+                    if (context.format[key]) {
+                        this.quill.format(key, false)
+                    }
+                })
+            }
+        },
+
+        exitBlockWithEnter: {
+            key: 'enter',
+            format: ['blockquote', 'code-block'],
             collapsed: true,
             empty: true,
             handler: function (range: any, context: any) {

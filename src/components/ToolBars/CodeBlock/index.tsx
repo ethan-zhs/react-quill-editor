@@ -33,7 +33,7 @@ class Code extends React.Component<any, any> {
         // 获得选中文本范围
         const { index } = quill.getSelection()
 
-        quill.format('codeblock', true)
+        quill.format('code-block', true)
     }
 }
 
