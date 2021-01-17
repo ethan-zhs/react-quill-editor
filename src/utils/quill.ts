@@ -39,9 +39,11 @@ export function getKeyboardBindings() {
             collapsed: true,
             offset: 0,
             handler: function (range: any, context: any) {
+                console.log(range, context)
                 formatList.forEach((key: string) => {
                     if (context.format[key]) {
                         this.quill.format(key, false)
+                        this.quill.setSelection(range.index - 1, 0)
                     }
                 })
             }
@@ -49,7 +51,7 @@ export function getKeyboardBindings() {
 
         exitBlockWithEnter: {
             key: 'enter',
-            format: ['blockquote', 'code-block'],
+            format: ['blockquote'],
             collapsed: true,
             empty: true,
             handler: function (range: any, context: any) {

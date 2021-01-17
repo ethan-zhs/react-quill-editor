@@ -49,7 +49,7 @@ class CodeBlock extends Container {
     static allowedChildren = [CodeBlockItem]
 
     static create() {
-        const tagName = 'blockquote'
+        const tagName = 'pre'
         const node = super.create(tagName)
         return node
     }
