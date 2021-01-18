@@ -30,7 +30,7 @@ class BlockquoteItem extends Block {
     replaceWith(name: any, value?: any) {
         const offset = this.offset(this.parent)
         const length = this.length()
-        this.parent.isolate(offset, length)
+        // this.parent.isolate(offset, length)
         if (name === this.parent.statics.blotName) {
             this.parent.replaceWith(name, value)
             return this
@@ -74,8 +74,13 @@ class Blockquote extends Container {
             super.insertBefore(blot, ref)
         } else {
             const index = ref == null ? this.length() : ref.offset(this)
-            const after = this.split(index)
-            after.parent.insertBefore(blot, after)
+            const after = this.split(index) || this.next
+
+            if (after) {
+                after.parent.insertBefore(blot, after)
+            } else {
+                this.parent.appendChild(blot)
+            }
         }
     }
 
@@ -86,8 +91,7 @@ class Blockquote extends Container {
             next != null &&
             next.prev === this &&
             next.statics.blotName === this.statics.blotName &&
-            next.domNode.tagName === this.domNode.tagName &&
-            next.domNode.getAttribute('data-checked') === this.domNode.getAttribute('data-checked')
+            next.domNode.tagName === this.domNode.tagName
         ) {
             next.moveChildren(this)
             next.remove()

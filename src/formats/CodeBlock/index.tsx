@@ -7,13 +7,18 @@ class CodeBlockItem extends Block {
     static blotName = 'code-block-item'
     static tagName = 'code'
 
+    static create(value: any) {
+        const node = super.create(value)
+        return node
+    }
+
     static formats(domNode: any) {
         return domNode.tagName === this.tagName ? void 0 : super.formats(domNode)
     }
 
     format(name: any, value: any) {
         if (name === CodeBlock.blotName && !value) {
-            this.replaceWith(Parchment.create(this.statics.scope))
+            this.replaceWith(Parchment.create(this.statics.scope), {})
         } else {
             super.format(name, value)
         }
@@ -22,6 +27,7 @@ class CodeBlockItem extends Block {
     remove() {
         if (this.prev == null && this.next == null) {
             this.parent.remove()
+            super.format(this.parent.blotName, false)
         } else {
             super.remove()
         }
@@ -86,8 +92,7 @@ class CodeBlock extends Container {
             next != null &&
             next.prev === this &&
             next.statics.blotName === this.statics.blotName &&
-            next.domNode.tagName === this.domNode.tagName &&
-            next.domNode.getAttribute('data-checked') === this.domNode.getAttribute('data-checked')
+            next.domNode.tagName === this.domNode.tagName
         ) {
             next.moveChildren(this)
             next.remove()

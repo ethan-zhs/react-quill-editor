@@ -21,15 +21,14 @@ export function styleRegister(Quill: any, moduleList: any = []) {
 export function getKeyboardBindings() {
     const formatList = [
         'textIndent',
-        'blockquote',
+        // 'blockquote',
         'align',
         'marginLeft',
         'marginRight',
         'marginTop',
         'marginBottom',
         'lineHeight',
-        'header',
-        'code-block'
+        'header'
     ]
 
     const bindings = {
@@ -39,7 +38,7 @@ export function getKeyboardBindings() {
             collapsed: true,
             offset: 0,
             handler: function (range: any, context: any) {
-                console.log(range, context)
+                // console.log(range, context)
                 formatList.forEach((key: string) => {
                     if (context.format[key]) {
                         this.quill.format(key, false)
@@ -47,21 +46,21 @@ export function getKeyboardBindings() {
                     }
                 })
             }
-        },
-
-        exitBlockWithEnter: {
-            key: 'enter',
-            format: ['blockquote'],
-            collapsed: true,
-            empty: true,
-            handler: function (range: any, context: any) {
-                formatList.forEach((key: string) => {
-                    if (context.format[key]) {
-                        this.quill.format(key, false)
-                    }
-                })
-            }
         }
+
+        // exitBlockWithEnter: {
+        //     key: 'enter',
+        //     format: ['blockquote'],
+        //     collapsed: true,
+        //     empty: true,
+        //     handler: function (range: any, context: any) {
+        //         formatList.forEach((key: string) => {
+        //             if (context.format[key]) {
+        //                 this.quill.format(key, false)
+        //             }
+        //         })
+        //     }
+        // }
     }
 
     return bindings
