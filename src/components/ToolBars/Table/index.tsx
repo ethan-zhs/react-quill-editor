@@ -33,7 +33,7 @@ class Table extends React.Component<any, any> {
         // 获得选中文本范围
         const { index } = quill.getSelection()
 
-        quill.insertEmbed(index, 'table', {})
+        quill.format('table', true)
     }
 }
 

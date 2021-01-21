@@ -36,7 +36,7 @@ class Blockquote extends React.Component<any, any> {
         // 获得当前格式
         const format = quill.getFormat(index, length)
 
-        quill.format('blockquote', !format.blockquote)
+        quill.format('blockquote1', !format.blockquote)
     }
 }
 

@@ -7,6 +7,11 @@ class BlockquoteItem extends Block {
     static blotName = 'blockquote-item'
     static tagName = 'p'
 
+    static create(tagName: any) {
+        const node = super.create(tagName, {})
+        return node
+    }
+
     static formats(domNode: any) {
         return domNode.tagName === this.tagName ? void 0 : super.formats(domNode)
     }
@@ -19,18 +24,10 @@ class BlockquoteItem extends Block {
         }
     }
 
-    remove() {
-        if (this.prev == null && this.next == null) {
-            this.parent.remove()
-        } else {
-            super.remove()
-        }
-    }
-
     replaceWith(name: any, value?: any) {
         const offset = this.offset(this.parent)
         const length = this.length()
-        // this.parent.isolate(offset, length)
+        this.parent.isolate(offset, length)
         if (name === this.parent.statics.blotName) {
             this.parent.replaceWith(name, value)
             return this
@@ -42,15 +39,14 @@ class BlockquoteItem extends Block {
 }
 
 class Blockquote extends Container {
-    static blotName = 'blockquote'
+    static blotName = 'blockquote1'
     static tagName = 'blockquote'
     static defaultChild = 'blockquote-item'
     static scope = Parchment.Scope.BLOCK_BLOT
     static allowedChildren = [BlockquoteItem]
 
-    static create() {
-        const tagName = 'blockquote'
-        const node = super.create(tagName)
+    static create(name: any) {
+        const node = super.create(name, {})
         return node
     }
 

@@ -29,6 +29,10 @@ class TableEmbed extends Embed {
         return node
     }
 
+    static formats() {
+        return 'table'
+    }
+
     format(format: any, value: any) {
         console.log(format, value)
     }

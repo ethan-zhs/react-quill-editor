@@ -25,9 +25,9 @@ class CodeBlockItem extends Block {
     }
 
     remove() {
-        if (this.prev == null && this.next == null) {
-            this.parent.remove()
+        if (this.prev == null && this.next == null && this.parent.blotName) {
             super.format(this.parent.blotName, false)
+            this.parent.remove()
         } else {
             super.remove()
         }

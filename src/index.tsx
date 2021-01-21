@@ -7,10 +7,9 @@ import { styleRegister, getKeyboardBindings } from '@utils/quill'
 import { STYLE_LIST } from './constants/styleList'
 
 import './formats/Hr'
+// import './formats/Blockquote'
 import './formats/CodeBlock'
-import './formats/Blockquote'
 import './formats/Table'
-// import List from './formats/Audio'
 
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.core.css'
@@ -29,11 +28,9 @@ class ReactQuillEditor extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        styleRegister(Quill, STYLE_LIST)
+        styleRegister(STYLE_LIST)
 
         const bindings = getKeyboardBindings()
-
-        // Quill.register({ 'formats/blockquote1': List }, true)
 
         const quill = new Quill('#editor', {
             modules: { toolbar: '#toolbar', keyboard: { bindings: bindings } },
