@@ -21,87 +21,78 @@ export function styleRegister(moduleList: any = []) {
 }
 
 export function getKeyboardBindings() {
-    const formatList = [
-        'textIndent',
-        'align',
-        'marginLeft',
-        'marginRight',
-        'marginTop',
-        'marginBottom',
-        'lineHeight',
-        'header'
-    ]
-
     const bindings = {
-        exitBlockWithBackspace: {
+        'clear format with backspace': {
             key: Keyboard.keys.BACKSPACE,
-            format: formatList,
+            format: [
+                'textIndent',
+                'align',
+                'marginLeft',
+                'marginRight',
+                'marginTop',
+                'marginBottom',
+                'lineHeight',
+                'header'
+            ],
             collapsed: true,
             empty: true,
             handler: function (range: any, context: any) {
+                const formatList = Object.keys(context.format)
                 formatList.forEach((key: string) => {
-                    if (context.format[key]) {
-                        this.quill.format(key, false)
-                    }
+                    this.quill.format(key, false)
                 })
             }
         },
 
-        // exitBlockWithEnter: {
-        //     key: Keyboard.keys.ENTER,
-        //     format: ['blockquote'],
-        //     collapsed: true,
-        //     empty: true,
-        //     handler: function (range: any, context: any) {
-        //         formatList.forEach((key: string) => {
-        //             if (context.format[key]) {
-        //                 this.quill.format(key, false)
-        //             }
-        //         })
-        //     }
-        // },
-
-        exitBlockWithEnter2: {
+        'exit block with backspace': {
             key: Keyboard.keys.BACKSPACE,
-            format: ['blockquote1', 'code-block'],
+            format: ['blockquote', 'code-block'],
             collapsed: true,
             empty: true,
             handler: function (range: any, context: any) {
-                const [Leaf] = this.quill.getLeaf(range.index)
-                const BlotItem = Leaf.parent
-                console.log(BlotItem)
+                const [BlotItem] = this.quill.getLine(range.index)
                 if (!BlotItem.prev && !BlotItem.next) {
-                    ;['blockquote1', 'code-block'].forEach((key: string) => {
-                        if (context.format[key]) {
-                            this.quill.format(key, false)
-                        }
+                    const formatList = Object.keys(context.format)
+
+                    formatList.forEach((key: string) => {
+                        this.quill.format(key, false)
                     })
-                } else {
-                    BlotItem.remove()
                 }
+
+                // 保持事件默认行为可执行, 不被阻塞
+                return true
+            }
+        },
+
+        'create new line with down': {
+            key: Keyboard.keys.DOWN,
+            format: ['blockquote', 'code-block'],
+            handler: function (range: any) {
+                const [BlotItem] = this.quill.getLine(range.index)
+                if (!BlotItem.next && !BlotItem.parent.next) {
+                    this.quill.insertText(this.quill.getLength(), '\n')
+                }
+
+                // 保持事件默认行为可执行, 不被阻塞
+                return true
+            }
+        },
+
+        'create new line with up': {
+            key: Keyboard.keys.UP,
+            format: ['blockquote', 'code-block'],
+            handler: function (range: any) {
+                const [BlotItem] = this.quill.getLine(range.index)
+                if (!BlotItem.prev && !BlotItem.parent.prev) {
+                    const BlotContainer = BlotItem.parent
+                    const EditorElem = BlotContainer.parent.domNode
+                    EditorElem.insertBefore(document.createElement('p'), BlotContainer.domNode)
+                }
+
+                // 保持事件默认行为可执行, 不被阻塞
+                return true
             }
         }
-
-        // exitBlockWithEnter3: {
-        //     key: Keyboard.keys.DOWN,
-        //     format: ['blockquote1', 'code-block'],
-        //     collapsed: true,
-        //     empty: true,
-        //     handler: function (range: any, context: any) {
-        //         const [Leaf] = this.quill.getLeaf(range.index)
-        //         const BlotItem = Leaf.parent
-        //         console.log(BlotItem)
-        //         if (!BlotItem.prev && !BlotItem.next) {
-        //             ;['blockquote1', 'code-block'].forEach((key: string) => {
-        //                 if (context.format[key]) {
-        //                     this.quill.format(key, false)
-        //                 }
-        //             })
-        //         } else {
-        //             BlotItem.remove()
-        //         }
-        //     }
-        // }
     }
 
     return bindings

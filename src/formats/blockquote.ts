@@ -5,10 +5,10 @@ const Container = Quill.import('blots/container')
 
 class BlockquoteItem extends Block {
     static blotName = 'blockquote-item'
-    static tagName = 'p'
+    static tagName = 'div' // 子标签不能为p, 会有插入报错的可能
 
-    static create(tagName: any) {
-        const node = super.create(tagName, {})
+    static create(value: any) {
+        const node = super.create(value)
         return node
     }
 
@@ -18,9 +18,18 @@ class BlockquoteItem extends Block {
 
     format(name: any, value: any) {
         if (name === Blockquote.blotName && !value) {
-            this.replaceWith(Parchment.create(this.statics.scope))
+            this.replaceWith(Parchment.create(this.statics.scope), {})
         } else {
             super.format(name, value)
+        }
+    }
+
+    remove() {
+        if (this.prev == null && this.next == null && this.parent.blotName) {
+            super.format(this.parent.blotName, false)
+            this.parent.remove()
+        } else {
+            super.remove()
         }
     }
 
@@ -39,14 +48,14 @@ class BlockquoteItem extends Block {
 }
 
 class Blockquote extends Container {
-    static blotName = 'blockquote1'
+    static blotName = 'blockquote'
     static tagName = 'blockquote'
     static defaultChild = 'blockquote-item'
     static scope = Parchment.Scope.BLOCK_BLOT
     static allowedChildren = [BlockquoteItem]
 
-    static create(name: any) {
-        const node = super.create(name, {})
+    static create(tagName: any) {
+        const node = super.create(tagName)
         return node
     }
 
@@ -70,13 +79,8 @@ class Blockquote extends Container {
             super.insertBefore(blot, ref)
         } else {
             const index = ref == null ? this.length() : ref.offset(this)
-            const after = this.split(index) || this.next
-
-            if (after) {
-                after.parent.insertBefore(blot, after)
-            } else {
-                this.parent.appendChild(blot)
-            }
+            const after = this.split(index)
+            after.parent.insertBefore(blot, after)
         }
     }
 

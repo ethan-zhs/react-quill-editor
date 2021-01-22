@@ -26,6 +26,7 @@ export default {
         codeblock: '插入代码块',
         audio: '插入音频',
         video: '插入视频',
+        image: '插入图片',
         vote: '插入投票',
         link: '插入链接',
         expression: '表情'

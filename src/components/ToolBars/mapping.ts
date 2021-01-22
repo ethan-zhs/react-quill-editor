@@ -18,15 +18,17 @@ const toolListMapping: any = {
     lineheight: () => import('./LineHeight'),
     letterspacing: () => import('./LetterSpacing'),
     sequence: () => import('./Sequence'),
-    table: () => import('./Table'),
     blockquote: () => import('./Blockquote'),
     line: () => import('./Line'),
     codeblock: () => import('./CodeBlock'),
     header: () => import('./Header'),
+    table: () => import('./Table'),
     audio: () => import('./Audio'),
     vote: () => import('./Vote'),
     link: () => import('./Link'),
-    expression: () => import('./Expression')
+    expression: () => import('./Expression'),
+    video: () => import('./Video'),
+    image: () => import('./Image')
 }
 
 const comLib: any = {}

@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Quill from 'quill'
 
 import ToolBars from '@components/ToolBars'
@@ -6,10 +7,9 @@ import { styleRegister, getKeyboardBindings } from '@utils/quill'
 
 import { STYLE_LIST } from './constants/styleList'
 
-import './formats/Hr'
-// import './formats/Blockquote'
-import './formats/CodeBlock'
-import './formats/Table'
+import './formats/hr'
+import './formats/blockquote'
+import './formats/code-block'
 
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.core.css'
@@ -28,29 +28,40 @@ class ReactQuillEditor extends React.Component<any, any> {
     }
 
     componentDidMount() {
+        const { toolbarId = 'toolbar' } = this.props
+
         styleRegister(STYLE_LIST)
 
         const bindings = getKeyboardBindings()
 
         const quill = new Quill('#editor', {
-            modules: { toolbar: '#toolbar', keyboard: { bindings: bindings } },
+            modules: {
+                toolbar: document.getElementById(toolbarId),
+                keyboard: { bindings: bindings }
+            },
             theme: 'snow'
         })
 
-        this.setState({
-            quill
-        })
+        const ToolBarContainer = this.ToolBarContainer
+
+        ReactDOM.render(<ToolBarContainer quill={quill} />, document.getElementById(toolbarId))
     }
 
     render() {
-        const { quill } = this.state
+        const { toolbarId } = this.props
         return (
             <div className={styles['react-quill-editor']}>
-                <div id="toolbar" className={styles['toolbar']}>
-                    <ToolBars quill={quill} />
-                </div>
+                {!toolbarId && <div id="toolbar"></div>}
 
                 <div id="editor" className={styles['editor-content']}></div>
+            </div>
+        )
+    }
+
+    ToolBarContainer(props: any) {
+        return (
+            <div className={styles['toolbar']}>
+                <ToolBars quill={props.quill} />
             </div>
         )
     }

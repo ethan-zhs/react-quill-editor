@@ -24,7 +24,7 @@
             }
 
             blockquote {
-                background: #f3f4f5;
+                background: #f8f8f8;
                 border-left: 4px solid #ccc;
                 color: #8a8a8a;
                 padding: 10px 7px;
@@ -48,7 +48,7 @@
                 }
             }
 
-            p {
+            p, div {
                 line-height: 1.5em;
             }
 
@@ -91,34 +91,8 @@
                 }
             }
         }
-
-        // 编辑器外观样式
-        .ql-toolbar.ql-snow {
-            border: none;
-            padding: 0;
-        }
-
-        .ql-container.ql-snow {
-            border: none;
-        }
-
-        .ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {
-            width: auto;
-            display: flex;
-            padding: 3px 0;
-            margin: 0 5px;
-        }
     }
 
-    .toolbar {
-        height: 45px;
-        background: rgb(250, 250, 250);        
-        box-shadow: 0 1px 5px 0 rgba(0,0,0,0.05);
-        display: flex;
-        align-items: center;
-        margin-top: 30px;
-    }
-    
     .editor-content {
         background: #fff;
         margin-top: 30px;
@@ -126,4 +100,33 @@
         min-height: 500px;
     }
 }
+
+.toolbar {
+    height: 45px;
+    background: rgb(250, 250, 250);        
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+:global {
+    // 编辑器外观样式
+    .ql-toolbar.ql-snow {
+        border: none;
+        padding: 0;
+    }
+
+    .ql-container.ql-snow {
+        border: none;
+    }
+
+    .ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {
+        width: auto;
+        display: flex;
+        padding: 3px 0;
+        margin: 0 5px;
+    }
+}
+
 

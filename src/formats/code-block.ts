@@ -54,14 +54,18 @@ class CodeBlock extends Container {
     static scope = Parchment.Scope.BLOCK_BLOT
     static allowedChildren = [CodeBlockItem]
 
-    static create() {
-        const tagName = 'pre'
+    static create(tagName: any) {
         const node = super.create(tagName)
+        node.setAttribute('tabindex', 0)
         return node
     }
 
     static formats() {
         return 'pre'
+    }
+
+    constructor(domNode: any) {
+        super(domNode)
     }
 
     format(name: any, value: any) {

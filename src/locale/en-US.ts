@@ -26,6 +26,7 @@ export default {
         codeblock: 'Insert code block',
         audio: 'Insert audio',
         video: 'Insert video',
+        image: 'Insert image',
         vote: 'Insert vote',
         link: 'Insert link',
         expression: 'Expression'
