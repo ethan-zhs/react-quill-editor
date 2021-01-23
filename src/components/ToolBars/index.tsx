@@ -40,7 +40,7 @@ class ToolBars extends React.Component<any, any> {
                 'blockquote',
                 'line',
                 'codeblock',
-                'expression',
+                'emotion',
                 'audio',
                 'video',
                 'image',

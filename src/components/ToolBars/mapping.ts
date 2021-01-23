@@ -26,7 +26,7 @@ const toolListMapping: any = {
     audio: () => import('./Audio'),
     vote: () => import('./Vote'),
     link: () => import('./Link'),
-    expression: () => import('./Expression'),
+    emotion: () => import('./Emotion'),
     video: () => import('./Video'),
     image: () => import('./Image')
 }

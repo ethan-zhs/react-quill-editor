@@ -28,7 +28,8 @@
     },
     "include": [
         "./typings/index.d.ts",
-        "./src/**/*"
+        "./src/**/*",
+        "./examples/**/*"
     ],
     "exclude": [
         "node_modules"

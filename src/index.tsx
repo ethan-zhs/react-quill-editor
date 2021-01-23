@@ -8,6 +8,7 @@ import { styleRegister, getKeyboardBindings } from '@utils/quill'
 import { STYLE_LIST } from './constants/styleList'
 
 import './formats/hr'
+import './formats/emotion'
 import './formats/blockquote'
 import './formats/code-block'
 
@@ -28,13 +29,13 @@ class ReactQuillEditor extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        const { toolbarId = 'toolbar' } = this.props
+        const { toolbarId = 'rql-toolbar' } = this.props
 
         styleRegister(STYLE_LIST)
 
         const bindings = getKeyboardBindings()
 
-        const quill = new Quill('#editor', {
+        const quill = new Quill('#rql-content', {
             modules: {
                 toolbar: document.getElementById(toolbarId),
                 keyboard: { bindings: bindings }
@@ -50,10 +51,9 @@ class ReactQuillEditor extends React.Component<any, any> {
     render() {
         const { toolbarId } = this.props
         return (
-            <div className={styles['react-quill-editor']}>
-                {!toolbarId && <div id="toolbar"></div>}
-
-                <div id="editor" className={styles['editor-content']}></div>
+            <div className={styles['rql-editor']}>
+                {!toolbarId && <div id="rql-toolbar"></div>}
+                <div id="rql-content" className={styles['editor-content']}></div>
             </div>
         )
     }
