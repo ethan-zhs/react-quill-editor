@@ -30,7 +30,7 @@ class Emotion extends React.Component<any, any> {
                             <li
                                 key={index}
                                 className={styles['emotion-item']}
-                                onClick={() => this.handleEmotion(index)}
+                                onClick={() => this.handleEmotion(index + 1)}
                             >
                                 <span
                                     className={styles['emotion-icon']}
@@ -64,7 +64,13 @@ class Emotion extends React.Component<any, any> {
         const { index } = quill.getSelection()
 
         // 清除选中文本样式
-        quill.insertEmbed(index, 'emotion', { index: emotionIndex + 1 })
+        quill.insertEmbed(
+            index,
+            'emotion',
+            `https://sitecdn.itouchtv.cn/sitecdn/assets/images/emotions/${emotionIndex}.png`
+        )
+
+        quill.setSelection(index + 1, 0)
     }
 
     showPopover = () => {

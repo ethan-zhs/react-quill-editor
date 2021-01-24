@@ -86,7 +86,7 @@ class Align extends React.Component<any, any> {
         }
 
         return (
-            <svg viewBox="0 0 1024 1024" width="18" height="18">
+            <svg className="rql-svg-icon" viewBox="0 0 1024 1024" width="18" height="18">
                 <path d={d}></path>
             </svg>
         )

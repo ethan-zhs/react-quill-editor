@@ -7,9 +7,12 @@ class EmotionEmbed extends Embed {
 
     static create(value: any) {
         const node = super.create(value)
-        node.src = `https://sitecdn.itouchtv.cn/sitecdn/assets/images/emotions/${value.index}.png`
+        const p = document.createElement('p')
+        node.src = value
         node.setAttribute('style', 'display:inline-block;width:20px;vertical-align:text-bottom;')
-        return node
+        p.appendChild(node)
+
+        return p
     }
 }
 

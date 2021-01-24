@@ -42,8 +42,12 @@
             }
         }
 
-        &.actived {           
-            fill: #07c160;
+        &.actived {      
+            :global {
+                .rql-svg-icon {
+                    fill: #07c160;
+                }
+            }     
         }
     }
 }

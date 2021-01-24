@@ -27,7 +27,7 @@ class FontItalic extends React.Component<any, any> {
         return (
             <ToolWrapper active={isActive}>
                 <button onClick={this.handleItalic}>
-                    <svg viewBox="0 0 1024 1024" width="20" height="20">
+                    <svg className="rql-svg-icon" viewBox="0 0 1024 1024" width="20" height="20">
                         <path d="M640 853.333333H298.666667v-85.333333h124.885333l90.282667-512H384V170.666667h341.333333v85.333333h-124.885333l-90.282667 512H640z"></path>
                     </svg>
                 </button>
