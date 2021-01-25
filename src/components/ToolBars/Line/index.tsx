@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@components/Icon'
 
 class Line extends React.Component<any, any> {
     constructor(props: any) {
@@ -16,9 +17,7 @@ class Line extends React.Component<any, any> {
         return (
             <ToolWrapper>
                 <button onClick={this.handleLine}>
-                    <svg viewBox="0 0 1024 1024" width="18" height="18">
-                        <path d="M960 470.857143H64c-5.028571 0-9.142857 4.114286-9.142857 9.142857v64c0 5.028571 4.114286 9.142857 9.142857 9.142857h896c5.028571 0 9.142857-4.114286 9.142857-9.142857v-64c0-5.028571-4.114286-9.142857-9.142857-9.142857z"></path>
-                    </svg>
+                    <Icon type="line" />
                 </button>
             </ToolWrapper>
         )

@@ -1,0 +1,70 @@
+.rql-modal {
+    position: absolute;
+    background: rgba(0,0,0,0.4);
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    * {
+        box-sizing: border-box;
+    } 
+
+    .rql-modal-container {
+        background: #fff;
+        min-width: 550px;
+        min-height: 400px;
+        margin: 35px 0;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+
+        .rql-modal-header,
+        .rql-modal-content,
+        .rql-modal-footer {
+            padding: 0 35px;
+        }
+
+        .rql-modal-header {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .rql-modal-title {
+                font-size: 17px;
+            }
+
+            .rql-modal-close-btn {
+                border: 0;
+                background: none;
+                outline: none;
+                cursor: pointer;
+
+                svg {
+                    fill: #aaa;
+
+                    &:hover {
+                        fill: #999;
+                    }
+                }
+            }
+        }
+
+        .rql-modal-content {
+            flex: 1;
+        }
+
+        .rql-modal-footer {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

@@ -9,6 +9,8 @@ import { STYLE_LIST } from './constants/styleList'
 
 import './formats/hr'
 import './formats/emotion'
+import './formats/image'
+import './formats/link'
 import './formats/blockquote'
 import './formats/code-block'
 
@@ -40,7 +42,8 @@ class ReactQuillEditor extends React.Component<any, any> {
                 toolbar: document.getElementById(toolbarId),
                 keyboard: { bindings: bindings }
             },
-            theme: 'snow'
+            theme: 'snow',
+            placeholder: 'Compose an epic...'
         })
 
         const ToolBarContainer = this.ToolBarContainer

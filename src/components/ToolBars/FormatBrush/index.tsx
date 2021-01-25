@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@components/Icon'
 
 class FormatBrush extends React.Component<any, any> {
     constructor(props: any) {
@@ -17,9 +18,7 @@ class FormatBrush extends React.Component<any, any> {
         return (
             <ToolWrapper active={formatDelta}>
                 <button onClick={this.handleFormatBrush}>
-                    <svg className="rql-svg-icon" viewBox="0 0 1024 1024" width="20" height="20">
-                        <path d="M260.992 448H768a64 64 0 0 1 64 64v384h-103.232C672 864 640 736 640 704c0 32 0 128-64 192H96c76.096-76.096 109.76-203.008 101.056-380.864A64 64 0 0 1 260.992 448zM640 256h128a64 64 0 0 1 0 128H256a64 64 0 1 1 0-128h128a32 32 0 0 0 32-32V128a64 64 0 0 1 64-64h64a64 64 0 0 1 64 64v96a32 32 0 0 0 32 32z"></path>
-                    </svg>
+                    <Icon type="format-brush" width={20} height={20} />
                 </button>
             </ToolWrapper>
         )

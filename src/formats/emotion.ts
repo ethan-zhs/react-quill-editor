@@ -1,21 +1,23 @@
 import Quill from 'quill'
-const Embed = Quill.import('blots/block/embed')
+const Inline = Quill.import('blots/inline')
 
-class EmotionEmbed extends Embed {
+class EmotionEmbed extends Inline {
     static blotName = 'emotion'
     static tagName = 'img'
 
     static create(value: any) {
-        const node = super.create(value)
-        const p = document.createElement('p')
+        const node = super.create()
         node.src = value
         node.setAttribute('style', 'display:inline-block;width:20px;vertical-align:text-bottom;')
-        p.appendChild(node)
 
-        return p
+        return node
+    }
+
+    static value(domNode: any) {
+        return domNode.getAttribute('src')
     }
 }
 
-Quill.register(EmotionEmbed)
+Quill.register({ 'formats/emotion': EmotionEmbed }, true)
 
 export default EmotionEmbed

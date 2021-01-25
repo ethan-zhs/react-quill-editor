@@ -69,6 +69,7 @@ export function getKeyboardBindings() {
             format: ['blockquote', 'code-block'],
             handler: function (range: any) {
                 const [BlotItem] = this.quill.getLine(range.index)
+
                 if (!BlotItem.next && !BlotItem.parent.next) {
                     this.quill.insertText(this.quill.getLength(), '\n')
                 }
@@ -83,6 +84,7 @@ export function getKeyboardBindings() {
             format: ['blockquote', 'code-block'],
             handler: function (range: any) {
                 const [BlotItem] = this.quill.getLine(range.index)
+
                 if (!BlotItem.prev && !BlotItem.parent.prev) {
                     const BlotContainer = BlotItem.parent
                     const EditorElem = BlotContainer.parent.domNode

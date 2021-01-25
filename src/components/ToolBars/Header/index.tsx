@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@components/Icon'
 
 class Header extends React.Component<any, any> {
     constructor(props: any) {
@@ -26,9 +27,7 @@ class Header extends React.Component<any, any> {
         return (
             <ToolWrapper active={this.state.isActive}>
                 <button onClick={this.handleHeader}>
-                    <svg className="rql-svg-icon" viewBox="0 0 1024 1024" width="18" height="18">
-                        <path d="M192 128m64 0l32 0q64 0 64 64l0 640q0 64-64 64l-32 0q-64 0-64-64l0-640q0-64 64-64Z M320 448h448v128H320z M736 128h32a64 64 0 0 1 64 64v640a64 64 0 0 1-64 64h-32a64 64 0 0 1-64-64V192a64 64 0 0 1 64-64z"></path>
-                    </svg>
+                    <Icon type="header" />
                 </button>
             </ToolWrapper>
         )

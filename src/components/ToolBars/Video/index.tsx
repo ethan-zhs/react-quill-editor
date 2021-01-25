@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@components/Icon'
 
 class Video extends React.Component<any, any> {
     constructor(props: any) {
@@ -24,9 +25,7 @@ class Video extends React.Component<any, any> {
         return (
             <ToolWrapper>
                 <button onClick={this.handleUndo}>
-                    <svg viewBox="0 0 1024 1024" width="17" height="17">
-                        <path d="M85.333333 170.666667v682.666666h853.333334V170.666667H85.333333z m0-85.333334h853.333334a85.333333 85.333333 0 0 1 85.333333 85.333334v682.666666a85.333333 85.333333 0 0 1-85.333333 85.333334H85.333333a85.333333 85.333333 0 0 1-85.333333-85.333334V170.666667a85.333333 85.333333 0 0 1 85.333333-85.333334z M469.333333 580.309333L592.298667 512 469.333333 443.690667v136.618666zM384 371.2a42.666667 42.666667 0 0 1 63.402667-37.333333l253.44 140.8a42.666667 42.666667 0 0 1 0 74.666666l-253.44 140.8A42.666667 42.666667 0 0 1 384 652.8V371.2z"></path>
-                    </svg>
+                    <Icon type="video" />
                 </button>
             </ToolWrapper>
         )
