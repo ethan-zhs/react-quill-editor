@@ -1,5 +1,5 @@
 import Quill from 'quill'
-const Inline = Quill.import('blots/inline')
+const Inline = Quill.import('blots/embed')
 
 class EmotionEmbed extends Inline {
     static blotName = 'emotion'

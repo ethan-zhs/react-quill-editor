@@ -63,7 +63,12 @@ class Emotion extends React.Component<any, any> {
         const { index } = quill.getSelection()
 
         // 清除选中文本样式
-        quill.format('emotion', `https://sitecdn.itouchtv.cn/sitecdn/assets/images/emotions/${emotionIndex}.png`)
+        quill.insertEmbed(
+            index,
+            'emotion',
+            `https://sitecdn.itouchtv.cn/sitecdn/assets/images/emotions/${emotionIndex}.png`
+        )
+        quill.setSelection(index + 1, 0)
     }
 
     showPopover = () => {

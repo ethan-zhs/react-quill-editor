@@ -1,5 +1,6 @@
 import React from 'react'
-import Modal from '@components/Modal'
+import InsertLink from '@components/Modal/InsertLink'
+import RqlFloatWrap from '@components/Editor/RqlFloatWrap'
 import Icon from '@components/Icon'
 
 class Link extends React.Component<any, any> {
@@ -7,7 +8,9 @@ class Link extends React.Component<any, any> {
         super(props)
 
         this.state = {
-            formatDelta: null
+            focusLink: {},
+            floatWrapVisible: false,
+            floatPos: []
         }
     }
 
@@ -22,26 +25,32 @@ class Link extends React.Component<any, any> {
     }
 
     render() {
+        const { focusLink, floatWrapVisible, floatPos } = this.state
         const { ToolWrapper } = this.props
 
-        // 按钮使用button, 避免编辑器失去焦点
         return (
             <ToolWrapper>
-                <Modal
+                <InsertLink
+                    focusLink={focusLink}
+                    onOk={this.handleLink}
                     content={
                         <button>
                             <Icon type="link" />
                         </button>
                     }
-                >
-                    <div>adasd</div>
-                </Modal>
+                />
+
+                {floatWrapVisible && (
+                    <RqlFloatWrap pos={floatPos} handleFloatVisible={this.handleFloatVisible}>
+                        <div>
+                            <a href={focusLink.link}>{focusLink.link}</a>
+                            <div>清除</div>
+                            <InsertLink focusLink={focusLink} onOk={this.handleLink} content={<div>修改</div>} />
+                        </div>
+                    </RqlFloatWrap>
+                )}
             </ToolWrapper>
         )
-    }
-
-    showModal = () => {
-        console.log(1)
     }
 
     handleLink = (title: string, link: string) => {
@@ -54,22 +63,52 @@ class Link extends React.Component<any, any> {
         const format = quill.getFormat(index, length)
 
         if (format.link) {
-            quill.format('link', { href: link })
+            const [Link] = quill.getLeaf(index)
+            Link.parent.format('link', { href: link })
         } else {
             quill.insertEmbed(index, 'link', { href: link, text: title })
             quill.setSelection(index + title.length, 0)
         }
     }
 
-    editorChangeHandler = () => {
+    handleFloatVisible = async (visible: boolean) => {
+        await this.setState({
+            floatWrapVisible: visible
+        })
+    }
+
+    editorChangeHandler = async () => {
         const { quill } = this.props
 
         if (quill.getSelection()) {
             const { index, length } = quill.getSelection()
             const format = quill.getFormat(index, length)
 
+            this.handleFloatVisible(false)
+
+            // 监测range变化, 判断当前焦点是不是在链接上
             if (format.link) {
-                // quill.getLeaf(index)[0].parent.format('link', false)
+                const [Link] = quill.getLeaf(index)
+
+                const domNode = Link.parent.domNode
+                const { left, top } = domNode.getBoundingClientRect()
+
+                setTimeout(() => {
+                    this.setState({
+                        focusLink: {
+                            linkTitle: domNode.innerText,
+                            link: domNode.href
+                        },
+                        floatPos: [left, top],
+                        floatWrapVisible: true
+                    })
+                }, 100)
+            } else {
+                this.setState({
+                    focusLink: {},
+                    floatPos: [],
+                    floatWrapVisible: false
+                })
             }
         }
     }

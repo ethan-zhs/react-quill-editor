@@ -56,7 +56,6 @@ class CodeBlock extends Container {
 
     static create(tagName: any) {
         const node = super.create(tagName)
-        node.setAttribute('tabindex', 0)
         return node
     }
 
