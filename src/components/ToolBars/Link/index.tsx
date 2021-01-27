@@ -3,6 +3,8 @@ import InsertLink from '@components/Modal/InsertLink'
 import RqlFloatWrap from '@components/Editor/RqlFloatWrap'
 import Icon from '@components/Icon'
 
+import styles from './index.less'
+
 class Link extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
@@ -32,7 +34,7 @@ class Link extends React.Component<any, any> {
             <ToolWrapper>
                 <InsertLink
                     focusLink={focusLink}
-                    onOk={this.handleLink}
+                    onOk={this.formatLink}
                     content={
                         <button>
                             <Icon type="link" />
@@ -42,10 +44,18 @@ class Link extends React.Component<any, any> {
 
                 {floatWrapVisible && (
                     <RqlFloatWrap pos={floatPos} handleFloatVisible={this.handleFloatVisible}>
-                        <div>
-                            <a href={focusLink.link}>{focusLink.link}</a>
-                            <div>清除</div>
-                            <InsertLink focusLink={focusLink} onOk={this.handleLink} content={<div>修改</div>} />
+                        <div className={styles['link-float']}>
+                            <a href={focusLink.link} target="_blank" rel="noreferrer" title={focusLink.link}>
+                                {focusLink.link}
+                            </a>
+                            <div className={styles['link-float-btn']} onClick={this.removeFormat}>
+                                清除
+                            </div>
+                            <InsertLink
+                                focusLink={focusLink}
+                                onOk={this.formatLink}
+                                content={<div className={styles['link-float-btn']}>修改</div>}
+                            />
                         </div>
                     </RqlFloatWrap>
                 )}
@@ -53,10 +63,20 @@ class Link extends React.Component<any, any> {
         )
     }
 
-    handleLink = (title: string, link: string) => {
+    removeFormat = () => {
         const { quill } = this.props
 
-        // 编辑器获得焦点
+        quill.focus()
+
+        const { index } = quill.getSelection()
+
+        const [Link] = quill.getLeaf(index)
+        Link.parent.format('link', false)
+    }
+
+    formatLink = (title: string, link: string) => {
+        const { quill } = this.props
+
         quill.focus()
 
         const { index, length } = quill.getSelection()
