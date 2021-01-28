@@ -11,6 +11,9 @@ import './formats/hr'
 import './formats/emotion'
 import './formats/image'
 import './formats/link'
+import './formats/video'
+import './formats/audio.tsx'
+import './formats/vote'
 import './formats/blockquote'
 import './formats/code-block'
 
@@ -46,7 +49,7 @@ class ReactQuillEditor extends React.Component<any, any> {
             placeholder: 'Compose an epic...'
         })
 
-        const ToolBarContainer = this.ToolBarContainer
+        const ToolBarContainer = this.renderToolBarContainer
 
         ReactDOM.render(<ToolBarContainer quill={quill} />, document.getElementById(toolbarId))
     }
@@ -61,7 +64,7 @@ class ReactQuillEditor extends React.Component<any, any> {
         )
     }
 
-    ToolBarContainer(props: any) {
+    renderToolBarContainer(props: any) {
         return (
             <div className={styles['toolbar']}>
                 <ToolBars quill={props.quill} />

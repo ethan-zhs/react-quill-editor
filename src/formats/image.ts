@@ -9,7 +9,7 @@ class ImageEmbed extends Embed {
         const node = super.create()
         node.setAttribute('contenteditable', false)
         node.setAttribute('data-init', value)
-        node.setAttribute('style', 'display: block; margin-bottom: 10px;')
+        node.setAttribute('style', 'display: block; margin: 10px auto; max-width: 100%;')
         return node
     }
 

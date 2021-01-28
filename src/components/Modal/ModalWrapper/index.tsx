@@ -19,7 +19,7 @@ class ModalWrapper extends React.Component<any, any> {
 
         return (
             <React.Fragment>
-                {React.cloneElement(content, { onClick: () => this.toggleModalVisible(true) })}
+                {content && React.cloneElement(content, { onClick: () => this.toggleModalVisible(true) })}
 
                 {visible && (
                     <Modal visible={visible} {...this.props} onOk={this.handleOk} onCancel={this.handleCancel} />

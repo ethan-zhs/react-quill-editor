@@ -32,8 +32,10 @@ class Vote extends React.Component<any, any> {
         // 获得选中文本范围
         const { index, length } = quill.getSelection()
 
-        // 清除选中文本样式
-        quill.removeFormat(index, length)
+        quill.insertEmbed(index, 'rql-vote', {})
+
+        // 移动光标到下一行输入
+        quill.setSelection(index + 1, 0)
     }
 }
 

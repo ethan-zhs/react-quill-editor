@@ -10,15 +10,6 @@ class Video extends React.Component<any, any> {
         }
     }
 
-    componentDidMount() {
-        // 监听编辑器历史堆栈变化, 开启/禁用撤回按钮
-        this.props.quill.on('text-change', this.textChangeHandler)
-    }
-
-    componentWillUnmount() {
-        this.props.quill.off('text-change', this.textChangeHandler)
-    }
-
     render() {
         const { ToolWrapper } = this.props
 
@@ -32,20 +23,18 @@ class Video extends React.Component<any, any> {
     }
 
     handleUndo = () => {
+        const { quill } = this.props
+
         // 编辑器获得焦点
-        this.props.quill.focus()
-        this.props.quill.history.undo()
-    }
+        quill.focus()
 
-    textChangeHandler = () => {
-        const undoStack = this.props.quill.history?.stack?.undo
-        const isDisabled = !undoStack || undoStack.length <= 0
+        // 获得选中文本范围
+        const { index, length } = quill.getSelection()
 
-        if (isDisabled !== this.state.disabled) {
-            this.setState({
-                disabled: isDisabled
-            })
-        }
+        quill.insertEmbed(index, 'rql-video', {})
+
+        // 移动光标到下一行输入
+        quill.setSelection(index + 1, 0)
     }
 }
 

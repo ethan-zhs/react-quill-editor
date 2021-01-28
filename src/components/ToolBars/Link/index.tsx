@@ -1,6 +1,6 @@
 import React from 'react'
 import InsertLink from '@components/Modal/InsertLink'
-import RqlFloatWrap from '@components/Editor/RqlFloatWrap'
+import RqlFloatWrap from '@src/components/ToolBars/Link/RqlFloatWrap'
 import Icon from '@components/Icon'
 
 import styles from './index.less'
@@ -51,11 +51,19 @@ class Link extends React.Component<any, any> {
                             <div className={styles['link-float-btn']} onClick={this.removeFormat}>
                                 清除
                             </div>
-                            <InsertLink
-                                focusLink={focusLink}
-                                onOk={this.formatLink}
-                                content={<div className={styles['link-float-btn']}>修改</div>}
-                            />
+                            <div
+                                onClick={() => {
+                                    setTimeout(() => {
+                                        this.setState({ floatWrapVisible: false })
+                                    }, 100)
+                                }}
+                            >
+                                <InsertLink
+                                    focusLink={focusLink}
+                                    onOk={this.formatLink}
+                                    content={<div className={styles['link-float-btn']}>修改</div>}
+                                />
+                            </div>
                         </div>
                     </RqlFloatWrap>
                 )}
@@ -81,10 +89,12 @@ class Link extends React.Component<any, any> {
 
         const { index, length } = quill.getSelection()
         const format = quill.getFormat(index, length)
+        const [Link, offset] = quill.getLeaf(index)
 
-        if (format.link) {
-            const [Link] = quill.getLeaf(index)
+        if (format.link && (offset > 0 || length > 0) && offset !== Link.length()) {
             Link.parent.format('link', { href: link })
+        } else if (length) {
+            quill.format('link', { href: link })
         } else {
             quill.insertEmbed(index, 'link', { href: link, text: title })
             quill.setSelection(index + title.length, 0)
@@ -97,7 +107,7 @@ class Link extends React.Component<any, any> {
         })
     }
 
-    editorChangeHandler = async () => {
+    editorChangeHandler = () => {
         const { quill } = this.props
 
         if (quill.getSelection()) {
@@ -106,30 +116,40 @@ class Link extends React.Component<any, any> {
 
             this.handleFloatVisible(false)
 
+            let focusLink: any = {}
+            let floatPos: any = []
+            let floatWrapVisible = false
+
             // 监测range变化, 判断当前焦点是不是在链接上
             if (format.link) {
-                const [Link] = quill.getLeaf(index)
+                const [Link, offset] = quill.getLeaf(index)
+
+                console.log(offset, Link.length())
 
                 const domNode = Link.parent.domNode
                 const { left, top } = domNode.getBoundingClientRect()
 
-                setTimeout(() => {
-                    this.setState({
-                        focusLink: {
-                            linkTitle: domNode.innerText,
-                            link: domNode.href
-                        },
-                        floatPos: [left, top],
-                        floatWrapVisible: true
-                    })
-                }, 100)
-            } else {
-                this.setState({
-                    focusLink: {},
-                    floatPos: [],
-                    floatWrapVisible: false
-                })
+                if ((offset > 0 || length > 0) && offset !== Link.length()) {
+                    focusLink = {
+                        linkTitle: domNode.innerText,
+                        link: domNode.href
+                    }
+
+                    floatPos = [left, top]
+                    floatWrapVisible = true
+                }
+            } else if (length) {
+                focusLink.linkTitle = quill.getText(index, length)
             }
+
+            const timer = setTimeout(() => {
+                this.setState({
+                    focusLink,
+                    floatPos,
+                    floatWrapVisible
+                })
+                clearTimeout(timer)
+            }, 100)
         }
     }
 }

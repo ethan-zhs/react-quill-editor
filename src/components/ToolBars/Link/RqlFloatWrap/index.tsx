@@ -17,18 +17,21 @@ class RqlFloatWrap extends React.Component<any, any> {
             this.removeDom()
         })
 
-        document.addEventListener('click', (e: any) => {
-            const elem = e.target
-            const wrapElem: any = document.querySelector(`.${styles['rql-float-wrap']}`)
-
-            if (!elem || !wrapElem.contains(elem)) {
-                this.removeDom()
-            }
-        })
+        document.addEventListener('click', this.handleClick)
     }
 
     componentWillUnmount() {
         this.removeDom()
+        document.removeEventListener('click', this.handleClick)
+    }
+
+    handleClick = (e: any) => {
+        const elem = e.target
+        const wrapElem: any = document.querySelector(`.${styles['rql-float-wrap']}`)
+
+        if (!elem || !wrapElem.contains(elem)) {
+            this.removeDom()
+        }
     }
 
     render() {
