@@ -15,7 +15,7 @@ class Form extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        const { config = [] } = this.props
+        const { config = [], onChange } = this.props
 
         const ComList: any = {
             input: Input
@@ -33,6 +33,7 @@ class Form extends React.Component<any, any> {
         })
 
         this.setState({ fieldList, fleldValue })
+        onChange && onChange(fleldValue)
     }
 
     render() {

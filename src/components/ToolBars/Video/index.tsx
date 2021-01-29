@@ -1,5 +1,6 @@
 import React from 'react'
 import Icon from '@components/Icon'
+import InsertVideo from '@components/Modal/InsertVideo'
 
 class Video extends React.Component<any, any> {
     constructor(props: any) {
@@ -15,26 +16,35 @@ class Video extends React.Component<any, any> {
 
         return (
             <ToolWrapper>
-                <button onClick={this.handleUndo}>
-                    <Icon type="video" />
-                </button>
+                <InsertVideo
+                    onOk={this.insertVideo}
+                    content={
+                        <button>
+                            <Icon type="video" />
+                        </button>
+                    }
+                />
             </ToolWrapper>
         )
     }
 
-    handleUndo = () => {
+    insertVideo = ({ poster, url }: any) => {
         const { quill } = this.props
 
         // 编辑器获得焦点
         quill.focus()
 
         // 获得选中文本范围
-        const { index, length } = quill.getSelection()
+        const { index } = quill.getSelection()
 
-        quill.insertEmbed(index, 'rql-video', {})
+        quill.insertEmbed(index, 'rql-video', { poster, url, onPlay: this.handlePlay })
 
         // 移动光标到下一行输入
         quill.setSelection(index + 1, 0)
+    }
+
+    handlePlay = (url: string) => {
+        alert(url)
     }
 }
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import classNames from 'classnames'
 
 import styles from './index.less'
 
@@ -9,11 +10,16 @@ class RqlFloatWrap extends React.Component<any, any> {
         super(props)
 
         this.el = document.createElement('div')
+        this.el.setAttribute('class', styles['rql-fixed-layer'])
         document.body.appendChild(this.el)
     }
 
     componentDidMount() {
         window.addEventListener('scroll', () => {
+            this.removeDom()
+        })
+
+        window.addEventListener('resize', () => {
             this.removeDom()
         })
 
@@ -29,7 +35,7 @@ class RqlFloatWrap extends React.Component<any, any> {
         const elem = e.target
         const wrapElem: any = document.querySelector(`.${styles['rql-float-wrap']}`)
 
-        if (!elem || !wrapElem.contains(elem)) {
+        if (!wrapElem || !wrapElem.contains(elem)) {
             this.removeDom()
         }
     }
@@ -42,17 +48,26 @@ class RqlFloatWrap extends React.Component<any, any> {
     removeDom = () => {
         const { handleFloatVisible } = this.props
         handleFloatVisible && handleFloatVisible()
-
-        if (this.el) {
-            document.body.removeChild(this.el)
-            this.el = null
-        }
     }
 
     createFloatWrap = () => {
-        const { children, pos } = this.props
+        const {
+            children,
+            pos: [left = 0, top = 0],
+            visible
+        } = this.props
+
+        const scrollTop = document.documentElement.scrollTop
+        const scrollLeft = document.documentElement.scrollLeft
+
         return (
-            <div className={styles['rql-float-wrap']} style={{ left: pos[0], top: pos[1] - 45 }}>
+            <div
+                className={classNames({
+                    [styles['rql-fixed-layer-wrap']]: true,
+                    [styles['rql-fixed-layer-hide']]: !visible
+                })}
+                style={{ left: left + scrollLeft, top: top + scrollTop - 45 }}
+            >
                 {children}
             </div>
         )

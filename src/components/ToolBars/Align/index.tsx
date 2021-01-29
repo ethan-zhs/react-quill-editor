@@ -17,13 +17,11 @@ class Align extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        this.props.quill.on('selection-change', this.editorChangeHandler)
-        this.props.quill.on('text-change', this.editorChangeHandler)
+        this.props.quill.on('editor-change', this.editorChangeHandler)
     }
 
     componentWillUnmount() {
-        this.props.quill.off('selection-change', this.editorChangeHandler)
-        this.props.quill.off('text-change', this.editorChangeHandler)
+        this.props.quill.off('editor-change', this.editorChangeHandler)
     }
 
     render() {
@@ -55,7 +53,7 @@ class Align extends React.Component<any, any> {
                     </div>
                 }
             >
-                <Icon type={`align-${currentAlign || 'justify'}`} />
+                <Icon type={`align-${currentAlign}`} />
             </Dropdown>
         )
     }
@@ -83,8 +81,10 @@ class Align extends React.Component<any, any> {
             const { index, length } = quill.getSelection()
             const format = quill.getFormat(index, length)
 
+            const currentAlign = typeof format.align === 'string' ? format.align : 'justify'
+
             this.setState({
-                currentAlign: format.align
+                currentAlign
             })
         }
     }

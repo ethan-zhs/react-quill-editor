@@ -40,7 +40,7 @@ class Modal extends React.Component<any, any> {
         return ReactDOM.createPortal(
             <div
                 className={styles['rql-modal']}
-                onClick={this.handleCancel}
+                // onClick={this.handleCancel}
                 style={{ display: visible ? 'flex' : 'none' }}
             >
                 <div

@@ -1,0 +1,49 @@
+.rql-audio {
+    border-radius: 4px;
+    width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background: #f8f8f8;
+    padding: 20px;
+
+    .rql-audio-title {
+        font-size: 17px;
+    }
+
+    .rql-audio-controls {
+        display: flex;
+        align-items: center;
+        
+        .rql-audio-progress {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            margin-right: 20px;
+
+            .rql-audio-progress-bar {
+                height: 2px;
+                background: #dfdfdf;
+            }
+
+            .rql-audio-time {
+                display: flex;
+                justify-content: space-between;
+                line-height: 1em;
+                margin-top: 5px;
+                font-size: 12px;
+                color: #aaa;
+            }
+        }
+        
+        .rql-audio-play-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            width: 50px;
+            height: 50px;
+            background: #fff;
+        }
+    }
+}

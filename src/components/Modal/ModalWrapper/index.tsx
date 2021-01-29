@@ -4,7 +4,6 @@ import Modal from '@components/Modal'
 // import styles from './index.less'
 
 class ModalWrapper extends React.Component<any, any> {
-    private el: any
     constructor(props: any) {
         super(props)
 

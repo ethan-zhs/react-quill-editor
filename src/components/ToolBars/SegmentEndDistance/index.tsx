@@ -18,13 +18,11 @@ class SegmentEndDistance extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        this.props.quill.on('selection-change', this.editorChangeHandler)
-        this.props.quill.on('text-change', this.editorChangeHandler)
+        this.props.quill.on('editor-change', this.editorChangeHandler)
     }
 
     componentWillUnmount() {
-        this.props.quill.off('selection-change', this.editorChangeHandler)
-        this.props.quill.off('text-change', this.editorChangeHandler)
+        this.props.quill.off('editor-change', this.editorChangeHandler)
     }
 
     render() {
