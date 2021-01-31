@@ -18,6 +18,6 @@ class ImageEmbed extends Embed {
     }
 }
 
-Quill.register(ImageEmbed)
+Quill.register({ 'formats/image': ImageEmbed }, true)
 
 export default ImageEmbed

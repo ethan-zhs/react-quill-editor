@@ -22,6 +22,6 @@ class VideoEmbed extends Embed {
     }
 }
 
-Quill.register(VideoEmbed)
+Quill.register({ 'formats/rql-video': VideoEmbed }, true)
 
 export default VideoEmbed

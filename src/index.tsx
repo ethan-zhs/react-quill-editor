@@ -13,7 +13,7 @@ import './formats/image'
 import './formats/link'
 import './formats/video.tsx'
 import './formats/audio.tsx'
-import './formats/vote'
+import './formats/vote.tsx'
 import './formats/blockquote'
 import './formats/code-block'
 

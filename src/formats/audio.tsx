@@ -23,6 +23,6 @@ class AudioEmbed extends Embed {
     }
 }
 
-Quill.register(AudioEmbed)
+Quill.register({ 'formats/rql-audio': AudioEmbed }, true)
 
 export default AudioEmbed

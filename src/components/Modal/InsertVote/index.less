@@ -1,0 +1,63 @@
+.insert-table {
+    width: 100%;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+
+    tr th, tr td { 
+        height: 40px;
+        padding: 10px;
+        font-weight: normal;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+        
+        &:nth-child(1) {
+            width: 20px;
+        }
+
+        &:nth-child(2) {
+            min-width: 250px;
+        }
+
+        &:nth-child(3) {
+            min-width: 145px;
+        }
+
+        &:nth-child(4) {
+            min-width: 80px;
+            text-align: right;
+        }
+    }
+
+    thead {
+        background: #f4f5f9;
+    }
+
+    tbody {
+        tr, td {
+            cursor: pointer;
+        }
+
+        .table-radio-btn {
+            position: relative;
+            border: 1px solid #ddd;
+            width: 16px;
+            height: 16px;
+            border-radius: 16px;
+
+            &.active {
+                &::before {                    
+                    content: '';
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    background: #ccc;
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
+}

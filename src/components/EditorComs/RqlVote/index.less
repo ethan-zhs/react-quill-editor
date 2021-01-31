@@ -1,0 +1,45 @@
+.rql-vote {
+    width:578px;
+    margin:0 auto;
+    border: 1px solid #ddd;
+    position: relative;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+
+    .rql-vote-header {
+        border-bottom: 1px solid #ddd;
+        width: 100%;
+        padding-bottom: 10px;
+    }
+
+    .rql-vote-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0;
+
+        .rql-vote-item {
+            padding: 5px 0;
+            position: relative;
+            color: #aaa;
+            display: flex;            
+            align-items: center;
+            cursor: pointer;
+
+            .rql-vote-item-radio {
+                width: 14px;
+                height: 14px;
+                border-radius: 14px;
+                border: 1px solid #ddd;
+                margin-right: 10px;
+            }
+
+            .rql-vote-item-name {
+                flex: 1;
+            }
+        }
+    }
+}

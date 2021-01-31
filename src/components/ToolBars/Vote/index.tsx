@@ -1,5 +1,6 @@
 import React from 'react'
 import Icon from '@components/Icon'
+import InsertVote from '@components/Modal/InsertVote'
 
 class Vote extends React.Component<any, any> {
     constructor(props: any) {
@@ -16,23 +17,29 @@ class Vote extends React.Component<any, any> {
         // 按钮使用button, 避免编辑器失去焦点
         return (
             <ToolWrapper>
-                <button onClick={this.handleClean}>
-                    <Icon type="vote" />
-                </button>
+                <InsertVote
+                    onOk={this.handleVote}
+                    content={
+                        <button>
+                            <Icon type="vote" />
+                        </button>
+                    }
+                />
             </ToolWrapper>
         )
     }
 
-    handleClean = () => {
+    handleVote = ({ title, voteItemList }: any) => {
+        console.log(title, voteItemList)
         const { quill } = this.props
 
         // 编辑器获得焦点
         quill.focus()
 
         // 获得选中文本范围
-        const { index, length } = quill.getSelection()
+        const { index } = quill.getSelection()
 
-        quill.insertEmbed(index, 'rql-vote', {})
+        quill.insertEmbed(index, 'rql-vote', { title, voteItemList })
 
         // 移动光标到下一行输入
         quill.setSelection(index + 1, 0)

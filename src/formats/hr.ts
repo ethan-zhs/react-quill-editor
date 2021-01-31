@@ -15,6 +15,6 @@ class HrEmbed extends Embed {
     }
 }
 
-Quill.register(HrEmbed)
+Quill.register({ 'formats/hr': HrEmbed }, true)
 
 export default HrEmbed
