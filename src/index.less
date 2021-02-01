@@ -7,15 +7,19 @@
     }
 
     :global {
+        .ql-blank::before {
+            left: 0;
+            right: 0;
+        }
+
         // 富文本通用样式
         .ql-editor {
             font-size: 17px;
             overflow: hidden;
             padding: 12px 0;
 
-            &.ql-blank::before {
-                left: 0;
-                right: 0;
+            h3 {
+                font-weight: normal;
             }
 
             table {

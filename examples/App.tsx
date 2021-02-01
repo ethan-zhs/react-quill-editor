@@ -8,9 +8,45 @@ class App extends React.Component {
         return (
             <div className={styles['react-quill-editor']}>
                 <div className={styles['react-quill-header']}>React Quill Editor</div>
-                <div id="outer-toolbar"></div>
+                <div id="outer-toolbar" className={styles['react-quill-toolbar']}></div>
                 <div className={styles['editor-content']}>
-                    <ReactQuillEditor toolbarId="outer-toolbar" />
+                    <ReactQuillEditor
+                        value={''}
+                        toolbarId="outer-toolbar"
+                        toolbars={[
+                            'undo',
+                            'redo',
+                            'clean',
+                            'brush',
+                            'fontsize',
+                            'bold',
+                            'italic',
+                            'underline',
+                            'strike',
+                            'header',
+                            'color',
+                            'background',
+                            'align',
+                            'indent',
+                            'indentbothend',
+                            'frontdistance',
+                            'enddistance',
+                            'lineheight',
+                            'letterspacing',
+                            'sequence',
+                            'table',
+                            'blockquote',
+                            'line',
+                            'codeblock',
+                            'emotion',
+                            'audio',
+                            'video',
+                            'image',
+                            'vote',
+                            'link'
+                        ]}
+                        placeholder="Compose an epic..."
+                    />
                 </div>
             </div>
         )

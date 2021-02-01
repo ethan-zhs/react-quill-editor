@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom'
 import Quill from 'quill'
 
 import ToolBars from '@components/ToolBars'
-import { styleRegister, getKeyboardBindings } from '@utils/quill'
+import { styleRegister } from '@utils/quill'
+import bindings from './bindings'
+import matcherHoc from './hoc/matcher'
 
 import { STYLE_LIST } from './constants/styleList'
 
 import './formats/hr'
 import './formats/emotion'
-import './formats/image'
 import './formats/link'
+import './formats/image'
 import './formats/video.tsx'
 import './formats/audio.tsx'
 import './formats/vote.tsx'
@@ -22,6 +24,7 @@ import 'quill/dist/quill.core.css'
 
 import styles from './index.less'
 
+@matcherHoc
 class ReactQuillEditor extends React.Component<any, any> {
     quill: any
     constructor(props: any) {
@@ -34,24 +37,33 @@ class ReactQuillEditor extends React.Component<any, any> {
     }
 
     componentDidMount() {
-        const { toolbarId = 'rql-toolbar' } = this.props
+        const { value = '', toolbarId = 'rql-toolbar', toolbars, placeholder = '' } = this.props
 
         styleRegister(STYLE_LIST)
-
-        const bindings = getKeyboardBindings()
 
         const quill = new Quill('#rql-content', {
             modules: {
                 toolbar: document.getElementById(toolbarId),
-                keyboard: { bindings: bindings }
+                keyboard: { bindings: bindings },
+                clipboard: {
+                    matchVisual: true,
+                    matchers: [
+                        ['img', this.matcherImage],
+                        ['a', this.matcherLink]
+                    ]
+                }
             },
             theme: 'snow',
-            placeholder: 'Compose an epic...'
+            placeholder
         })
 
+        // 渲染toolbars
         const ToolBarContainer = this.renderToolBarContainer
+        ReactDOM.render(<ToolBarContainer quill={quill} toolbars={toolbars} />, document.getElementById(toolbarId))
 
-        ReactDOM.render(<ToolBarContainer quill={quill} />, document.getElementById(toolbarId))
+        // 初始化编辑器内容
+        const delta = quill.clipboard.convert(value)
+        quill.setContents(delta, 'silent')
     }
 
     render() {
@@ -67,9 +79,33 @@ class ReactQuillEditor extends React.Component<any, any> {
     renderToolBarContainer(props: any) {
         return (
             <div className={styles['toolbar']}>
-                <ToolBars quill={props.quill} />
+                <ToolBars {...props} />
             </div>
         )
+    }
+
+    matcherImage = (node: any, delta: any) => {
+        delta.forEach((op: any, index: any) => {
+            op.insert.image = { src: node.src }
+        })
+        return delta
+    }
+
+    matcherLink = (node: any, delta: any) => {
+        const Delta = Quill.import('delta')
+        delta.forEach((op: any, index: any) => {
+            console.log(node)
+            // if (op && op.attributes && op.attributes.link) {
+            //     delete op.attributes.link
+            // }
+        })
+        return delta
+    }
+
+    matcherVideo = (node: any, delta: any) => {
+        const Delta = Quill.import('delta')
+
+        return delta
     }
 }
 

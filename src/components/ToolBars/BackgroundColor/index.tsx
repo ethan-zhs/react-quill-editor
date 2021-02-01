@@ -25,8 +25,8 @@ class BackgroundColor extends React.Component<any, any> {
                 onRef={(dropdown: any) => (this.dropdown = dropdown)}
                 content={<ColorPicker onChange={this.handleColorChange} value={currentColor} />}
             >
-                <div className={styles['background-color']}>
-                    <Icon type="background-color" onClick={this.handleBackgroundColor} />
+                <div className={styles['background-color']} onClick={this.handleBackgroundColor}>
+                    <Icon type="background-color" />
 
                     <div className={styles['color-val']} style={{ background: currentColor }}></div>
                 </div>

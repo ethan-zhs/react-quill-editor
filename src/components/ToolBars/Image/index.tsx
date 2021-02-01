@@ -37,8 +37,8 @@ class Image extends React.Component<any, any> {
         // 获得选中文本范围
         const { index } = quill.getSelection()
 
-        // 清除选中文本样式
         quill.insertEmbed(index, 'image', { src: url })
+        // quill.format('align', 'center')
     }
 }
 

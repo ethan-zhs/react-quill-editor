@@ -25,8 +25,8 @@ class FontColor extends React.Component<any, any> {
                 ToolWrapper={this.props.ToolWrapper}
                 content={<ColorPicker onChange={this.handleColorChange} value={currentColor} />}
             >
-                <div className={styles['font-color']}>
-                    <Icon type="font-color" onClick={this.handleFontColor} />
+                <div className={styles['font-color']} onClick={this.handleFontColor}>
+                    <Icon type="font-color" />
 
                     <div className={styles['color-val']} style={{ background: currentColor }}></div>
                 </div>

@@ -30,7 +30,6 @@ class Vote extends React.Component<any, any> {
     }
 
     handleVote = ({ title, voteItemList }: any) => {
-        console.log(title, voteItemList)
         const { quill } = this.props
 
         // 编辑器获得焦点

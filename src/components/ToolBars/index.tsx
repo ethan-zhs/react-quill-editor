@@ -9,44 +9,44 @@ import getLocales from '@src/locale'
 
 class ToolBars extends React.Component<any, any> {
     private _isMounted: boolean
+    private toolbars = [
+        'undo',
+        'redo',
+        'clean',
+        'brush',
+        'fontsize',
+        'bold',
+        'italic',
+        'underline',
+        'strike',
+        'header',
+        'color',
+        'background',
+        'align',
+        'indent',
+        'indentbothend',
+        'frontdistance',
+        'enddistance',
+        'lineheight',
+        'letterspacing',
+        'sequence',
+        'table',
+        'blockquote',
+        'line',
+        'codeblock',
+        'emotion',
+        'audio',
+        'video',
+        'image',
+        'vote',
+        'link'
+    ]
 
     constructor(props: any) {
         super(props)
 
         this.state = {
-            toolList: [],
-            toolbars: [
-                'undo',
-                'redo',
-                'clean',
-                'brush',
-                'fontsize',
-                'bold',
-                'italic',
-                'underline',
-                'strike',
-                'header',
-                'color',
-                'background',
-                'align',
-                'indent',
-                'indentbothend',
-                'frontdistance',
-                'enddistance',
-                'lineheight',
-                'letterspacing',
-                'sequence',
-                'table',
-                'blockquote',
-                'line',
-                'codeblock',
-                'emotion',
-                'audio',
-                'video',
-                'image',
-                'vote',
-                'link'
-            ]
+            toolList: []
         }
     }
 
@@ -80,7 +80,7 @@ class ToolBars extends React.Component<any, any> {
     }
 
     loadToolBarItems = async () => {
-        const { toolbars } = this.state
+        const { toolbars = this.toolbars } = this.props
         const toolList: any = []
 
         if (toolbars.length) {
