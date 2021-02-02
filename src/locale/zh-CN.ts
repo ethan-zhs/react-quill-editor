@@ -29,6 +29,7 @@ export default {
         image: '插入图片',
         vote: '插入投票',
         link: '插入链接',
-        emotion: '表情'
+        emotion: '表情',
+        more: '更多'
     }
 }

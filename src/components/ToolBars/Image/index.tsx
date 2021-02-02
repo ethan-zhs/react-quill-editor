@@ -38,7 +38,8 @@ class Image extends React.Component<any, any> {
         const { index } = quill.getSelection()
 
         quill.insertEmbed(index, 'image', { src: url })
-        // quill.format('align', 'center')
+        quill.setSelection(index + 1, 0)
+        quill.format('align', 'center')
     }
 }
 

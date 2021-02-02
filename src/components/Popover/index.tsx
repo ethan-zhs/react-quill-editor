@@ -1,4 +1,5 @@
 import * as React from 'react'
+import window from '../../global/window'
 import styles from './index.less'
 
 interface IProps {
@@ -22,6 +23,20 @@ class Popover extends React.Component<IProps, any> {
 
     componentDidMount() {
         this.handleDocumentClick()
+    }
+
+    componentDidUpdate(prevProps: any) {
+        if (prevProps.visible !== this.props.visible) {
+            if (this.props.visible) {
+                const { left, width } = this.popoverRef.current.getBoundingClientRect()
+                const winWidth = window.innerWidth || document.body.clientHeight
+
+                if (winWidth - left < width) {
+                    this.popoverRef.current.style.left = 'inherit'
+                    this.popoverRef.current.style.right = '0px'
+                }
+            }
+        }
     }
 
     render() {

@@ -37,14 +37,10 @@ class Video extends React.Component<any, any> {
         // 获得选中文本范围
         const { index } = quill.getSelection()
 
-        quill.insertEmbed(index, 'rql-video', { poster, url, onPlay: this.handlePlay })
+        quill.insertEmbed(index, 'rql-video', { poster, url })
 
         // 移动光标到下一行输入
         quill.setSelection(index + 1, 0)
-    }
-
-    handlePlay = (url: string) => {
-        alert(url)
     }
 }
 

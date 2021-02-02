@@ -11,7 +11,9 @@ class App extends React.Component {
                 <div id="outer-toolbar" className={styles['react-quill-toolbar']}></div>
                 <div className={styles['editor-content']}>
                     <ReactQuillEditor
-                        value={''}
+                        value={
+                            '<video src="https://video2-cloud.itouchtv.cn/video/2020/12/24/c20ca9309d72656b1608796578648667__hd.mp4" poster="https://img2-cloud.itouchtv.cn/news/e1fcb5925356f06d1e8b3092e757903f.png"></video><div>1111</div>'
+                        }
                         toolbarId="outer-toolbar"
                         toolbars={[
                             'undo',
@@ -43,7 +45,8 @@ class App extends React.Component {
                             'video',
                             'image',
                             'vote',
-                            'link'
+                            'link',
+                            'more'
                         ]}
                         placeholder="Compose an epic..."
                     />

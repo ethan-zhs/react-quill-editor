@@ -29,6 +29,7 @@ export default {
         image: 'Insert image',
         vote: 'Insert vote',
         link: 'Insert link',
-        emotion: 'Emotion'
+        emotion: 'Emotion',
+        more: 'More'
     }
 }

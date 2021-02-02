@@ -3,11 +3,7 @@ import ReactDOM from 'react-dom'
 import Quill from 'quill'
 
 import ToolBars from '@components/ToolBars'
-import { styleRegister } from '@utils/quill'
-import bindings from './bindings'
-import matcherHoc from './hoc/matcher'
-
-import { STYLE_LIST } from './constants/styleList'
+import moduleImproveHoc from './hoc/moduleImproveHoc'
 
 import './formats/hr'
 import './formats/emotion'
@@ -24,34 +20,23 @@ import 'quill/dist/quill.core.css'
 
 import styles from './index.less'
 
-@matcherHoc
+@moduleImproveHoc
 class ReactQuillEditor extends React.Component<any, any> {
-    quill: any
     constructor(props: any) {
         super(props)
 
         this.state = {
-            formatDelta: null,
-            quill: null
+            formatDelta: null
         }
     }
 
     componentDidMount() {
-        const { value = '', toolbarId = 'rql-toolbar', toolbars, placeholder = '' } = this.props
-
-        styleRegister(STYLE_LIST)
+        const { value = '', toolbarId = 'rql-toolbar', toolbars, placeholder = '', modules = {} } = this.props
 
         const quill = new Quill('#rql-content', {
             modules: {
                 toolbar: document.getElementById(toolbarId),
-                keyboard: { bindings: bindings },
-                clipboard: {
-                    matchVisual: true,
-                    matchers: [
-                        ['img', this.matcherImage],
-                        ['a', this.matcherLink]
-                    ]
-                }
+                ...modules
             },
             theme: 'snow',
             placeholder
@@ -82,30 +67,6 @@ class ReactQuillEditor extends React.Component<any, any> {
                 <ToolBars {...props} />
             </div>
         )
-    }
-
-    matcherImage = (node: any, delta: any) => {
-        delta.forEach((op: any, index: any) => {
-            op.insert.image = { src: node.src }
-        })
-        return delta
-    }
-
-    matcherLink = (node: any, delta: any) => {
-        const Delta = Quill.import('delta')
-        delta.forEach((op: any, index: any) => {
-            console.log(node)
-            // if (op && op.attributes && op.attributes.link) {
-            //     delete op.attributes.link
-            // }
-        })
-        return delta
-    }
-
-    matcherVideo = (node: any, delta: any) => {
-        const Delta = Quill.import('delta')
-
-        return delta
     }
 }
 

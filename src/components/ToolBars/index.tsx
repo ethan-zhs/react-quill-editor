@@ -8,6 +8,7 @@ import getToolItem from './mapping'
 import getLocales from '@src/locale'
 
 class ToolBars extends React.Component<any, any> {
+    private toolbarRef: any
     private _isMounted: boolean
     private toolbars = [
         'undo',
@@ -39,7 +40,8 @@ class ToolBars extends React.Component<any, any> {
         'video',
         'image',
         'vote',
-        'link'
+        'link',
+        'more'
     ]
 
     constructor(props: any) {
@@ -48,6 +50,8 @@ class ToolBars extends React.Component<any, any> {
         this.state = {
             toolList: []
         }
+
+        this.toolbarRef = React.createRef()
     }
 
     componentDidMount() {
@@ -71,7 +75,7 @@ class ToolBars extends React.Component<any, any> {
     render() {
         const { toolList } = this.state
         return (
-            <div className={styles['toolbars']}>
+            <div className={styles['toolbars']} ref={this.toolbarRef}>
                 {toolList.map((tool: string) => {
                     return this.renderToolItem(tool)
                 })}
@@ -93,10 +97,14 @@ class ToolBars extends React.Component<any, any> {
             }
         }
 
-        this._isMounted &&
-            this.setState({
+        if (this._isMounted) {
+            await this.setState({
                 toolList
             })
+        }
+
+        const toolbarElem = this.toolbarRef.current
+        console.log(toolbarElem.offsetWidth, toolbarElem.parentNode.offsetWidth)
     }
 
     renderToolItem = (tool: any) => {
