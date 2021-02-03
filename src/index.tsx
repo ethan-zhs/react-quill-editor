@@ -1,9 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Quill from 'quill'
+import classNames from 'classnames'
 
 import ToolBars from '@components/ToolBars'
 import moduleImproveHoc from './hoc/moduleImproveHoc'
+import editorInitHoc from './hoc/editorInitHoc'
 
 import './formats/hr'
 import './formats/emotion'
@@ -21,50 +23,33 @@ import 'quill/dist/quill.core.css'
 import styles from './index.less'
 
 @moduleImproveHoc
+@editorInitHoc
 class ReactQuillEditor extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
 
         this.state = {
-            formatDelta: null
+            isFocus: false
         }
     }
 
     componentDidMount() {
-        const { value = '', toolbarId = 'rql-toolbar', toolbars, placeholder = '', modules = {} } = this.props
-
-        const quill = new Quill('#rql-content', {
-            modules: {
-                toolbar: document.getElementById(toolbarId),
-                ...modules
-            },
-            theme: 'snow',
-            placeholder
-        })
-
-        // 渲染toolbars
-        const ToolBarContainer = this.renderToolBarContainer
-        ReactDOM.render(<ToolBarContainer quill={quill} toolbars={toolbars} />, document.getElementById(toolbarId))
-
-        // 初始化编辑器内容
-        const delta = quill.clipboard.convert(value)
-        quill.setContents(delta, 'silent')
+        // ad
     }
 
     render() {
-        const { toolbarId } = this.props
-        return (
-            <div className={styles['rql-editor']}>
-                {!toolbarId && <div id="rql-toolbar"></div>}
-                <div id="rql-content" className={styles['editor-content']}></div>
-            </div>
-        )
-    }
+        const { toolbarId, isFocus } = this.props
 
-    renderToolBarContainer(props: any) {
         return (
-            <div className={styles['toolbar']}>
-                <ToolBars {...props} />
+            <div
+                className={classNames({
+                    [styles['rql-editor']]: true,
+                    [styles['rql-editor-active']]: isFocus
+                })}
+            >
+                {!toolbarId && <div id="rql-toolbar"></div>}
+
+                <div id="rql-content" className={styles['rql-content']}></div>
             </div>
         )
     }

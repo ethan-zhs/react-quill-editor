@@ -2,6 +2,14 @@
     width: 100%;
     font-size: 14px;
 
+    &.rql-editor-active {
+        :global {
+            .ql-blank::before {
+                opacity: 0;
+            }
+        }
+    }
+
     * {
         outline: none;
     }
@@ -111,7 +119,7 @@
         }
     }
 
-    .editor-content {
+    .rql-content {
         width: 100%;
         background: #fff;
         height: auto;
@@ -121,10 +129,13 @@
 
 .toolbar {
     height: 45px;
+    width: 100%;
     background: rgb(250, 250, 250);        
     display: flex;
     font-size: 12px;
     align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 :global {

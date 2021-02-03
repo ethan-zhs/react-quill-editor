@@ -3,56 +3,88 @@ import ReactQuillEditor from '../src/index'
 
 import styles from './index.less'
 
-class App extends React.Component {
+class App extends React.Component<any, any> {
+    editor: any
+
+    constructor(props: any) {
+        super(props)
+
+        this.state = {
+            content: ''
+        }
+    }
+
+    componentDidMount() {
+        this.setState({ content: this.editor.getContents() })
+    }
+
     render() {
+        const { content } = this.state
+
         return (
             <div className={styles['react-quill-editor']}>
                 <div className={styles['react-quill-header']}>React Quill Editor</div>
                 <div id="outer-toolbar" className={styles['react-quill-toolbar']}></div>
-                <div className={styles['editor-content']}>
-                    <ReactQuillEditor
-                        value={
-                            '<video src="https://video2-cloud.itouchtv.cn/video/2020/12/24/c20ca9309d72656b1608796578648667__hd.mp4" poster="https://img2-cloud.itouchtv.cn/news/e1fcb5925356f06d1e8b3092e757903f.png"></video><div>1111</div>'
-                        }
-                        toolbarId="outer-toolbar"
-                        toolbars={[
-                            'undo',
-                            'redo',
-                            'clean',
-                            'brush',
-                            'fontsize',
-                            'bold',
-                            'italic',
-                            'underline',
-                            'strike',
-                            'header',
-                            'color',
-                            'background',
-                            'align',
-                            'indent',
-                            'indentbothend',
-                            'frontdistance',
-                            'enddistance',
-                            'lineheight',
-                            'letterspacing',
-                            'sequence',
-                            'table',
-                            'blockquote',
-                            'line',
-                            'codeblock',
-                            'emotion',
-                            'audio',
-                            'video',
-                            'image',
-                            'vote',
-                            'link',
-                            'more'
-                        ]}
-                        placeholder="Compose an epic..."
-                    />
+                <div className={styles['editor-container']}>
+                    <div className={styles['editor-content-preview']}>
+                        <div className={styles['editor-content']} dangerouslySetInnerHTML={{ __html: content }}></div>
+                        <div className={styles['editor-data']}>
+                            <span>Focus: </span>
+                            <span>字数:</span>
+                        </div>
+                    </div>
+                    <div className={styles['editor-wrapper']}>
+                        <ReactQuillEditor
+                            onChange={this.handleEditorChange}
+                            getEditor={(editor: any) => {
+                                this.editor = editor
+                            }}
+                            value={''}
+                            toolbarId="outer-toolbar"
+                            toolbars={[
+                                'undo',
+                                'redo',
+                                'clean',
+                                'brush',
+                                'fontsize',
+                                'bold',
+                                'italic',
+                                'underline',
+                                'strike',
+                                'header',
+                                'color',
+                                'background',
+                                'align',
+                                'indent',
+                                'indentbothend',
+                                'frontdistance',
+                                'enddistance',
+                                'lineheight',
+                                'letterspacing',
+                                'sequence',
+                                'table',
+                                'blockquote',
+                                'line',
+                                'codeblock',
+                                'emotion',
+                                'audio',
+                                'video',
+                                'image',
+                                'vote',
+                                'link',
+                                'more'
+                            ]}
+                            placeholder="Compose an epic..."
+                        />
+                    </div>
                 </div>
             </div>
         )
+    }
+
+    handleEditorChange = () => {
+        console.log(111)
+        this.setState({ content: this.editor.getContents() })
     }
 }
 

@@ -7,7 +7,7 @@ const Parchment = Quill.import('parchment')
 const Delta = Quill.import('delta')
 const Keyboard = Quill.import('modules/keyboard')
 
-export default function moduleImprove(WrapperComponent: any): any {
+export default function moduleImproveHoc(WrapperComponent: any): any {
     return class extends React.Component<any, any> {
         constructor(props: any) {
             super(props)
@@ -168,6 +168,8 @@ export default function moduleImprove(WrapperComponent: any): any {
 
             const clipboard = {
                 matchVisual: true,
+
+                // 粘贴或者初始化内容都会触发matcher
                 matchers: [
                     ['img', this.matcherImage],
                     ['a', this.matcherLink],

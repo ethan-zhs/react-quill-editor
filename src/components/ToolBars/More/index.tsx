@@ -2,6 +2,8 @@ import React from 'react'
 import Popover from '@components/Popover'
 import Icon from '@components/Icon'
 
+import styles from './index.less'
+
 class More extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
@@ -13,11 +15,23 @@ class More extends React.Component<any, any> {
 
     render() {
         const { visible } = this.state
-        const { ToolWrapper } = this.props
+        const { ToolWrapper, moreTools = [] } = this.props
 
         // 按钮使用button, 避免编辑器失去焦点
         return (
-            <Popover content={<div>11</div>} visible={visible} onVisibleChange={this.handleVisibleChange}>
+            <Popover
+                content={
+                    <div className={styles['more-tools']}>
+                        {moreTools.map((tool: any) => (
+                            <div className={styles['more-tools-item']} key={tool.key}>
+                                {tool}
+                            </div>
+                        ))}
+                    </div>
+                }
+                visible={visible}
+                onVisibleChange={this.handleVisibleChange}
+            >
                 <ToolWrapper>
                     <button onClick={this.showPopover}>
                         <Icon type="more" />

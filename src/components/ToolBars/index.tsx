@@ -48,7 +48,8 @@ class ToolBars extends React.Component<any, any> {
         super(props)
 
         this.state = {
-            toolList: []
+            toolList: [],
+            moreToolbars: []
         }
 
         this.toolbarRef = React.createRef()
@@ -65,6 +66,12 @@ class ToolBars extends React.Component<any, any> {
             this._isMounted = true
             this.loadToolBarItems()
         }
+
+        window.addEventListener('resize', () => {
+            const { toolbars = this.toolbars } = this.props
+            toolbars.length * 30
+            console.log(toolbars.length * 30)
+        })
     }
 
     componentWillUnmount() {
@@ -73,12 +80,27 @@ class ToolBars extends React.Component<any, any> {
     }
 
     render() {
-        const { toolList } = this.state
+        const { toolList, moreToolbars } = this.state
+
+        const ToolItem = this.renderToolItem
+        const tools = toolList.filter((t: any) => ![...moreToolbars, 'more'].includes(t.key))
+        const more = toolList.find((t: any) => t.key === 'more')
+        const moreTools = toolList.filter((t: any) => moreToolbars.includes(t.key))
+
         return (
             <div className={styles['toolbars']} ref={this.toolbarRef}>
-                {toolList.map((tool: string) => {
-                    return this.renderToolItem(tool)
-                })}
+                {tools.map((tool: string, index: number) => (
+                    <ToolItem key={index} tool={tool} {...this.props} />
+                ))}
+
+                {more && moreTools.length > 0 && (
+                    <ToolItem
+                        tool={more}
+                        moreTools={moreTools.map((tool: string, index: number) => (
+                            <ToolItem key={index} tool={tool} {...this.props} />
+                        ))}
+                    />
+                )}
             </div>
         )
     }
@@ -107,9 +129,9 @@ class ToolBars extends React.Component<any, any> {
         console.log(toolbarElem.offsetWidth, toolbarElem.parentNode.offsetWidth)
     }
 
-    renderToolItem = (tool: any) => {
-        const { key, ToolItem } = tool
-        return <ToolItem ToolWrapper={this.toolWrapper(key)} key={key} {...this.props} />
+    renderToolItem = (props: any) => {
+        const { key, ToolItem } = props.tool
+        return <ToolItem ToolWrapper={this.toolWrapper(key)} {...props} />
     }
 
     /**

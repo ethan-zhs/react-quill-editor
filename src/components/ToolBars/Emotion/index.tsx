@@ -54,6 +54,10 @@ class Emotion extends React.Component<any, any> {
     }
 
     handleEmotion = (emotionIndex: number) => {
+        if (emotionIndex > 117) {
+            return
+        }
+
         const { quill } = this.props
 
         // 编辑器获得焦点
