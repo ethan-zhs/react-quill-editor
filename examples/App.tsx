@@ -10,7 +10,8 @@ class App extends React.Component<any, any> {
         super(props)
 
         this.state = {
-            content: ''
+            content: '',
+            contentLength: 0
         }
     }
 
@@ -19,7 +20,7 @@ class App extends React.Component<any, any> {
     }
 
     render() {
-        const { content } = this.state
+        const { content, contentLength } = this.state
 
         return (
             <div className={styles['react-quill-editor']}>
@@ -29,8 +30,7 @@ class App extends React.Component<any, any> {
                     <div className={styles['editor-content-preview']}>
                         <div className={styles['editor-content']} dangerouslySetInnerHTML={{ __html: content }}></div>
                         <div className={styles['editor-data']}>
-                            <span>Focus: </span>
-                            <span>字数:</span>
+                            <span>内容字数: {contentLength}</span>
                         </div>
                     </div>
                     <div className={styles['editor-wrapper']}>
@@ -83,8 +83,10 @@ class App extends React.Component<any, any> {
     }
 
     handleEditorChange = () => {
-        console.log(111)
-        this.setState({ content: this.editor.getContents() })
+        this.setState({
+            content: this.editor.getContents(),
+            contentLength: this.editor.getLength()
+        })
     }
 }
 

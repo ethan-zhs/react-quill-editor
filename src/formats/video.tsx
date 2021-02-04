@@ -13,8 +13,8 @@ class VideoEmbed extends Embed {
         const node = super.create(value)
         node.setAttribute('contenteditable', 'false')
         node.setAttribute('style', 'display: block; margin:10px 0;')
-        value.poster && node.setAttribute('data-poster', value.poster)
-        value.url && node.setAttribute('data-url', value.url)
+        node.setAttribute('data-poster', value.poster)
+        node.setAttribute('data-url', value.url)
 
         ReactDOM.render(<RqlVideo {...value} />, node)
 

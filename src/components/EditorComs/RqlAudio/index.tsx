@@ -11,7 +11,13 @@ class RqlAudio extends React.Component<any, any> {
     }
 
     render() {
-        const { filename, duration } = this.props
+        const { filename, duration = 0 } = this.props
+
+        let m: any = Math.floor(duration / 60)
+        let s: any = Math.floor(duration % 60)
+
+        m = m >= 10 ? m : `0${m}`
+        s = s >= 10 ? s : `0${s}`
 
         return (
             <div className={styles['rql-audio']}>
@@ -21,7 +27,9 @@ class RqlAudio extends React.Component<any, any> {
                         <div className={styles['rql-audio-progress-bar']}></div>
                         <div className={styles['rql-audio-time']}>
                             <span>00:00</span>
-                            <span>{duration}</span>
+                            <span>
+                                {m}:{s}
+                            </span>
                         </div>
                     </div>
                     <div className={styles['rql-audio-play-btn']}>

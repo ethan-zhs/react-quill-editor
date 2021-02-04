@@ -4,6 +4,21 @@ import Quill from 'quill'
 
 import ToolBars from '@components/ToolBars'
 
+import '../formats/hr'
+import '../formats/emotion'
+import '../formats/link'
+import '../formats/image'
+import '../formats/video.tsx'
+import '../formats/audio.tsx'
+import '../formats/vote.tsx'
+import '../formats/blockquote'
+import '../formats/code-block'
+
+/**
+ *
+ * @param WrapperComponent
+ * @returns
+ */
 export default function editorInitHoc(WrapperComponent: any): any {
     return class extends React.Component<any, any> {
         private quill: any
@@ -66,6 +81,8 @@ export default function editorInitHoc(WrapperComponent: any): any {
             return {
                 setContents: this.setContents,
                 getContents: this.getContents,
+                getLength: this.getLength,
+                getText: this.getText,
                 blur: this.quill.blur,
                 focus: this.quill.focus,
                 rql: this.quill
@@ -80,7 +97,27 @@ export default function editorInitHoc(WrapperComponent: any): any {
 
         // 获得编辑器内容
         getContents = () => {
-            return this.quill.root.innerHTML
+            let content = this.quill.root.innerHTML
+            content = this.videoBlotToElem(content)
+            content = this.audioBlotToElem(content)
+            content = this.voteBlotToElem(content)
+            return content
+        }
+
+        // 获得编辑器内容长度
+        getLength = (type?: string) => {
+            if (type === 'char') {
+                return this.quill.getLength()
+            } else if (type === 'byte') {
+                return this.quill.getLength() / 2
+            } else {
+                return this.quill.getText().length - 1
+            }
+        }
+
+        // 获得编辑器字符串内容
+        getText = () => {
+            return this.quill.getText()
         }
 
         handleEvents = () => {
@@ -101,6 +138,36 @@ export default function editorInitHoc(WrapperComponent: any): any {
             this.quill.on('text-change', () => {
                 onChange && onChange()
             })
+        }
+
+        /**
+         *
+         * @param {string} content 富文本内容
+         * @returns
+         */
+        videoBlotToElem = (content: string) => {
+            const r = new RegExp(
+                /<rql-video[^>]*data-poster=['"]([^'"]+)[^>]*data-url=['"]([^'"]+)[^>]*>((?!<\/rql-video>).)*<\/rql-video>/,
+                'gi'
+            )
+            return content.replace(r, ($1, $poster, $url) => {
+                return `<video src="${$url}" poster="${$poster}" controls></video>`
+            })
+        }
+
+        audioBlotToElem = (content: string) => {
+            const r = new RegExp(
+                /<rql-audio[^>]*data-filename=['"]([^'"]+)[^>]*data-duration=['"]([^'"]+)[^>]*data-url=['"]([^'"]+)[^>]*>((?!<\/rql-audio>).)*<\/rql-audio>/,
+                'gi'
+            )
+            return content.replace(r, ($1, $filename, $duration, $url) => {
+                return `<audio src="${$url}" alt="${$filename}" data-duration="${$duration}" controls></audio>`
+            })
+        }
+
+        voteBlotToElem = (content: string) => {
+            const r = new RegExp(/<rql-vote[^>]*>((?!<\/rql-vote>).)*<\/rql-vote>/, 'gi')
+            return content.replace(r, '<div class="rql-vote"></div>')
         }
     }
 }

@@ -108,7 +108,7 @@ export default function moduleImproveHoc(WrapperComponent: any): any {
             })
         }
 
-        matcherImage = (node: any, delta: any) => {
+        matcherImage = (node: any) => {
             const _delta = new Delta()
 
             // 在这里执行图片的上传, 地址替换
@@ -128,7 +128,7 @@ export default function moduleImproveHoc(WrapperComponent: any): any {
             return delta
         }
 
-        matcherRqlVideo = (node: any, delta: any) => {
+        matcherRqlVideo = (node: any) => {
             const _delta = new Delta()
             const poster = node.getAttribute('data-poster')
             const url = node.getAttribute('data-url')
@@ -137,17 +137,22 @@ export default function moduleImproveHoc(WrapperComponent: any): any {
             return _delta
         }
 
-        matcheRqlVote = (node: any, delta: any) => {
+        matcherRqlVote = (node: any, delta: any) => {
             console.log(node, delta)
             return new Delta()
         }
 
-        matcheRqlAudio = (node: any, delta: any) => {
-            console.log(node, delta)
-            return new Delta()
+        matcherRqlAudio = (node: any) => {
+            const _delta = new Delta()
+            const filename = node.getAttribute('data-filename')
+            const url = node.getAttribute('data-url')
+            const duration = node.getAttribute('data-duration')
+            _delta.insert({ 'rql-audio': { filename, url, duration } })
+
+            return _delta
         }
 
-        matcherVideo = (node: any, delta: any) => {
+        matcherVideo = (node: any) => {
             const _delta = new Delta()
             const poster = node.poster
             const url = node.src
@@ -156,9 +161,14 @@ export default function moduleImproveHoc(WrapperComponent: any): any {
             return _delta
         }
 
-        matcheAudio = (node: any, delta: any) => {
-            console.log(node, delta)
-            return new Delta()
+        matcheAudio = (node: any) => {
+            const _delta = new Delta()
+            const filename = node.alt
+            const url = node.src
+            const duration = node.duration
+            _delta.insert({ 'rql-audio': { filename, url, duration } })
+
+            return _delta
         }
 
         render() {
@@ -174,7 +184,8 @@ export default function moduleImproveHoc(WrapperComponent: any): any {
                     ['img', this.matcherImage],
                     ['a', this.matcherLink],
                     ['video', this.matcherVideo],
-                    ['rql-video', this.matcherRqlVideo]
+                    ['rql-video', this.matcherRqlVideo],
+                    ['rql-audio', this.matcherRqlAudio]
                 ]
             }
 

@@ -12,6 +12,11 @@
         font-weight: bold;
         align-items: center;
         color: #333;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;        
+        z-index: 1;
     }
 
     .react-quill-toolbar {
@@ -20,14 +25,19 @@
         align-items: center;
         justify-content: center;
         background: #fafafa;
+        position: fixed;
+        width: 100%;
+        top: 60px;
+        left: 0;
+        z-index: 1;
     }
 
     .editor-container {
         display: flex;
+        margin-top: 130px;
 
         .editor-content-preview {
             position: relative;
-            margin-top: 30px;
             margin-left: 20px;
             background: #fff;
             width: 330px;
@@ -36,10 +46,19 @@
             .editor-content {
                 width: 100%;
                 height: 100%;
-                padding: 20px 30px;
+                padding: 20px 20px;
                 font-size: 17px;
                 overflow-x: hidden;
                 overflow-y: auto;
+                font-family: Helvetica, Arial, sans-serif;
+
+                video {
+                    background: #000;
+                }
+
+                video, audio, img {
+                    width: 100%;
+                }
 
                 h3 {
                     font-weight: normal;
@@ -132,10 +151,15 @@
             }
         }
 
+        @media screen and (max-width: 1200px){
+            .editor-content-preview {
+                display: none;
+            }
+        }
+
         .editor-wrapper {
             width: 768px;
             margin: 0 auto;
-            margin-top: 30px;
             margin-bottom: 50px;
             padding: 30px 95px 72px;
             box-sizing: border-box;
