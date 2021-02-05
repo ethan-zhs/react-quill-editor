@@ -1,12 +1,14 @@
 import React from 'react'
 import InsertLink from '@components/Modal/InsertLink'
-import RqlFixedLayer from '@components/ToolBars/Link/RqlFixedLayer'
+import Fixedlayer from './Fixedlayer'
 import Icon from '@components/Icon'
 
 import styles from './index.less'
 
 class Link extends React.Component<any, any> {
     private timer: any
+    private _isMounted: boolean
+
     constructor(props: any) {
         super(props)
 
@@ -19,10 +21,12 @@ class Link extends React.Component<any, any> {
 
     componentDidMount() {
         this.props.quill.on('editor-change', this.editorChangeHandler)
+        this._isMounted = true
     }
 
     componentWillUnmount() {
         this.props.quill.off('editor-change', this.editorChangeHandler)
+        this._isMounted = false
     }
 
     render() {
@@ -41,7 +45,7 @@ class Link extends React.Component<any, any> {
                     }
                 />
 
-                <RqlFixedLayer pos={floatPos} handleFloatVisible={this.handleFloatVisible} visible={fixedLayerVisible}>
+                <Fixedlayer pos={floatPos} handleFloatVisible={this.handleFloatVisible} visible={fixedLayerVisible}>
                     <div className={styles['link-float']}>
                         <a href={focusLink.link} target="_blank" rel="noreferrer" title={focusLink.link}>
                             {focusLink.link}
@@ -53,7 +57,7 @@ class Link extends React.Component<any, any> {
                             <InsertLink focusLink={focusLink} onOk={this.formatLink} content={<span>修改</span>} />
                         </div>
                     </div>
-                </RqlFixedLayer>
+                </Fixedlayer>
             </ToolWrapper>
         )
     }
@@ -141,11 +145,12 @@ class Link extends React.Component<any, any> {
                     focusLink.linkTitle = quill.getText(index, length)
                 }
 
-                this.setState({
-                    focusLink,
-                    floatPos,
-                    fixedLayerVisible
-                })
+                this._isMounted &&
+                    this.setState({
+                        focusLink,
+                        floatPos,
+                        fixedLayerVisible
+                    })
             }
             clearTimeout(this.timer)
         }, 100)

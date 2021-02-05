@@ -113,18 +113,15 @@ export default function moduleImproveHoc(WrapperComponent: any): any {
 
             // 在这里执行图片的上传, 地址替换
             _delta.insert({ image: { src: node.src } })
-            // delta.forEach((op: any, index: any) => {
-            //     setTimeout(() => {
-            //         console.log(src)
-            //         op.insert.image = { src: src }
-            //     }, 100)
-            // })
             return _delta
         }
 
         matcherLink = (node: any, delta: any) => {
-            // const _delta = new Delta()
-            // _delta.insert({ link: { href: node.href, title: node.innerText } })
+            delta.forEach((op: any) => {
+                if (op && op.attributes && op.attributes.link) {
+                    op.attributes.link = { href: node.href, text: node.innerText }
+                }
+            })
             return delta
         }
 

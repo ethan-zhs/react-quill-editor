@@ -40,8 +40,7 @@ class ToolBars extends React.Component<any, any> {
         'video',
         'image',
         'vote',
-        'link',
-        'more'
+        'link'
     ]
 
     constructor(props: any) {
@@ -49,7 +48,8 @@ class ToolBars extends React.Component<any, any> {
 
         this.state = {
             toolList: [],
-            moreToolbars: []
+            toolbarLength: 100,
+            toolbarWidth: 0
         }
 
         this.toolbarRef = React.createRef()
@@ -58,7 +58,20 @@ class ToolBars extends React.Component<any, any> {
     componentDidMount() {
         this._isMounted = true
 
-        this.loadToolBarItems()
+        this.loadToolBarItems().then(() => {
+            this.setState(
+                {
+                    toolbarWidth: this.toolbarRef.current.offsetWidth
+                },
+                () => {
+                    this.calculateToolbarWidth()
+                }
+            )
+
+            window.addEventListener('resize', () => {
+                this.calculateToolbarWidth()
+            })
+        })
     }
 
     componentDidUpdate(prevProps: any) {
@@ -66,12 +79,6 @@ class ToolBars extends React.Component<any, any> {
             this._isMounted = true
             this.loadToolBarItems()
         }
-
-        window.addEventListener('resize', () => {
-            const { toolbars = this.toolbars } = this.props
-            toolbars.length * 30
-            console.log(toolbars.length * 30)
-        })
     }
 
     componentWillUnmount() {
@@ -80,34 +87,43 @@ class ToolBars extends React.Component<any, any> {
     }
 
     render() {
-        const { toolList, moreToolbars } = this.state
+        const { toolList, toolbarLength = 100 } = this.state
 
         const ToolItem = this.renderToolItem
-        const tools = toolList.filter((t: any) => ![...moreToolbars, 'more'].includes(t.key))
+        const tools = toolList.filter((t: any) => t.key !== 'more')
         const more = toolList.find((t: any) => t.key === 'more')
-        const moreTools = toolList.filter((t: any) => moreToolbars.includes(t.key))
+        const restTools = tools.filter((t: any, index: number) => index < toolbarLength)
+        const moreTools = tools.filter((t: any, index: number) => index >= toolbarLength && t.key != 'split')
 
         return (
-            <div className={styles['toolbars']} ref={this.toolbarRef}>
-                {tools.map((tool: string, index: number) => (
-                    <ToolItem key={index} tool={tool} {...this.props} />
-                ))}
+            <div className={styles['toolbars-container']}>
+                <div className={styles['toolbars']} ref={this.toolbarRef}>
+                    {restTools.map((tool: any, index: number) => {
+                        if (index >= restTools.length - 1 && tool.key === 'split') {
+                            return null
+                        } else {
+                            return <ToolItem key={index} tool={tool} {...this.props} />
+                        }
+                    })}
 
-                {more && moreTools.length > 0 && (
-                    <ToolItem
-                        tool={more}
-                        moreTools={moreTools.map((tool: string, index: number) => (
-                            <ToolItem key={index} tool={tool} {...this.props} />
-                        ))}
-                    />
-                )}
+                    {more && moreTools.length > 0 && this._isMounted && (
+                        <ToolItem
+                            tool={more}
+                            moreTools={moreTools.map((tool: any, index: number) => (
+                                <ToolItem key={index} tool={tool} {...this.props} />
+                            ))}
+                        />
+                    )}
+                </div>
             </div>
         )
     }
 
     loadToolBarItems = async () => {
-        const { toolbars = this.toolbars } = this.props
+        let { toolbars = this.toolbars } = this.props
         const toolList: any = []
+
+        toolbars = [...this.dealWithGroups(toolbars), 'more']
 
         if (toolbars.length) {
             for (const key of toolbars) {
@@ -124,9 +140,33 @@ class ToolBars extends React.Component<any, any> {
                 toolList
             })
         }
+    }
+
+    dealWithGroups = (toolbars: any) => {
+        let _toolbars: any = []
+
+        for (const key of toolbars) {
+            if (Array.isArray(key)) {
+                _toolbars = [..._toolbars, ...key]
+                _toolbars.push('split')
+            } else {
+                _toolbars.push(key)
+            }
+        }
+
+        return _toolbars
+    }
+
+    calculateToolbarWidth = () => {
+        const { toolList } = this.state
+        const { toolbarWidth } = this.state
 
         const toolbarElem = this.toolbarRef.current
-        console.log(toolbarElem.offsetWidth, toolbarElem.parentNode.offsetWidth)
+
+        const parentWidth = toolbarElem.parentNode.offsetWidth
+        const toolbarLength = Math.round((parentWidth / toolbarWidth) * toolList.length)
+
+        this.setState({ toolbarLength: toolbarLength - 4 })
     }
 
     renderToolItem = (props: any) => {

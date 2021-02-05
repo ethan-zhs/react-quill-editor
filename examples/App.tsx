@@ -42,37 +42,21 @@ class App extends React.Component<any, any> {
                             value={''}
                             toolbarId="outer-toolbar"
                             toolbars={[
-                                'undo',
-                                'redo',
-                                'clean',
-                                'brush',
-                                'fontsize',
-                                'bold',
-                                'italic',
-                                'underline',
-                                'strike',
-                                'header',
-                                'color',
-                                'background',
-                                'align',
-                                'indent',
-                                'indentbothend',
-                                'frontdistance',
-                                'enddistance',
-                                'lineheight',
-                                'letterspacing',
-                                'sequence',
-                                'table',
-                                'blockquote',
-                                'line',
-                                'codeblock',
-                                'emotion',
-                                'audio',
-                                'video',
-                                'image',
-                                'vote',
-                                'link',
-                                'more'
+                                ['undo', 'redo'],
+                                ['clean', 'brush'],
+                                ['fontsize', 'bold', 'italic', 'underline', 'strike', 'header', 'color', 'background'],
+                                [
+                                    'align',
+                                    'indent',
+                                    'indentbothend',
+                                    'frontdistance',
+                                    'enddistance',
+                                    'lineheight',
+                                    'letterspacing',
+                                    'sequence'
+                                ],
+                                ['table', 'blockquote', 'line', 'codeblock', 'emotion'],
+                                ['audio', 'video', 'image', 'vote', 'link']
                             ]}
                             placeholder="Compose an epic..."
                         />

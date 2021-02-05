@@ -29,7 +29,8 @@ const toolListMapping: any = {
     emotion: () => import('./Emotion'),
     video: () => import('./Video'),
     image: () => import('./Image'),
-    more: () => import('./More')
+    more: () => import('./More'),
+    split: () => import('./Split')
 }
 
 const comLib: any = {}

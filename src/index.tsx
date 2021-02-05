@@ -26,7 +26,7 @@ class ReactQuillEditor extends React.Component<any, any> {
                     [styles['rql-editor-active']]: isFocus
                 })}
             >
-                {!toolbarId && <div id="rql-toolbar"></div>}
+                {!toolbarId && <div id="rql-toolbar" className={styles['rql-toolbar']}></div>}
 
                 <div id="rql-content" className={styles['rql-content']}></div>
             </div>

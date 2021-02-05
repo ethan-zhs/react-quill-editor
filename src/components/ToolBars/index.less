@@ -1,54 +1,63 @@
-.toolbars {
-    padding: 10px 0;
+.toolbars-container {
     display: flex;
-    font-size: 12px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 45px;
 
-    .tool-wrapper {
-        width: 100%;
-        height: 24px;
-        fill: #343941;
-        position: relative;
-
-        button, input {
-            outline: none;
-        }
-
-        :global {
-            .tooltips {
-                display: none;
+    .toolbars {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+    
+        .tool-wrapper {
+            width: 100%;
+            height: 24px;
+            fill: #343941;
+            position: relative;
+    
+            button, input {
+                outline: none;
             }
-        }
-
-        &:hover {
-            background: #eee;
-
+    
             :global {
                 .tooltips {
-                    display: block;
+                    display: none;
                 }
             }
-        }
-
-        &.disabled {           
-            color: #aaa;
-            fill: #aaa;
-
-            button {
-                color: #aaa;
-                pointer-events: none;
-            }
-
+    
             &:hover {
-                background: transparent;
-            }
-        }
-
-        &.actived {      
-            :global {
-                .rql-svg-icon {
-                    fill: #07c160;
+                background: #eee;
+    
+                :global {
+                    .tooltips {
+                        display: block;
+                    }
                 }
-            }     
+            }
+    
+            &.disabled {           
+                color: #aaa;
+                fill: #aaa;
+    
+                button {
+                    color: #aaa;
+                    pointer-events: none;
+                }
+    
+                &:hover {
+                    background: transparent;
+                }
+            }
+    
+            &.actived {      
+                :global {
+                    .rql-svg-icon {
+                        fill: #07c160;
+                    }
+                }     
+            }
         }
     }
 }

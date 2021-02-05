@@ -1,4 +1,5 @@
 import * as React from 'react'
+import classNames from 'classnames'
 import window from '../../global/window'
 import styles from './index.less'
 
@@ -22,7 +23,7 @@ class Popover extends React.Component<IProps, any> {
     }
 
     componentDidMount() {
-        this.handleDocumentClick()
+        document.addEventListener('click', this.handleDocumentClick)
     }
 
     componentDidUpdate(prevProps: any) {
@@ -39,17 +40,25 @@ class Popover extends React.Component<IProps, any> {
         }
     }
 
+    componentWillUnmount() {
+        document.removeEventListener('click', this.handleDocumentClick)
+    }
+
     render() {
         const { children, content, visible } = this.props
 
         return (
             <div className={styles['popover']}>
                 {children}
-                {visible && (
-                    <div className={styles['popover-mark']} ref={this.popoverRef}>
-                        <div className={styles['popover-panel']}>{content}</div>
-                    </div>
-                )}
+                <div
+                    className={classNames({
+                        [styles['popover-mark']]: true,
+                        [styles['popover-hide']]: !visible
+                    })}
+                    ref={this.popoverRef}
+                >
+                    <div className={styles['popover-panel']}>{content}</div>
+                </div>
             </div>
         )
     }
@@ -59,14 +68,12 @@ class Popover extends React.Component<IProps, any> {
         onVisibleChange && onVisibleChange(visible)
     }
 
-    handleDocumentClick = () => {
-        document.addEventListener('click', (e: any) => {
-            e.stopPropagation()
-            const parentElem = this.popoverRef.current
-            if (!parentElem || !parentElem.contains(e.target)) {
-                this.onVisibleChange(false)
-            }
-        })
+    handleDocumentClick = (e: any) => {
+        e.stopPropagation()
+        const parentElem = this.popoverRef.current
+        if (!parentElem || !parentElem.contains(e.target)) {
+            this.onVisibleChange(false)
+        }
     }
 }
 

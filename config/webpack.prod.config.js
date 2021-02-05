@@ -10,7 +10,7 @@ module.exports = {
     mode: 'production',
     devtool: 'source-map',
     entry: {
-        'react-quill': resolve('src/index.tsx')
+        'rql-editor': resolve('src/index.tsx')
     },
     output: {
         path: resolve('dist'),

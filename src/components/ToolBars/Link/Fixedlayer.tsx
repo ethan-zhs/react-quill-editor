@@ -4,36 +4,36 @@ import classNames from 'classnames'
 
 import styles from './index.less'
 
-class RqlFloatWrap extends React.Component<any, any> {
+class Fixedlayer extends React.Component<any, any> {
     private el: any
     constructor(props: any) {
         super(props)
 
-        this.el = document.createElement('div')
-        this.el.setAttribute('class', styles['rql-fixed-layer'])
-        document.body.appendChild(this.el)
+        this.el = document.getElementById('rql-fixed-layer')
+
+        if (!this.el) {
+            this.el = document.createElement('div')
+            this.el.setAttribute('id', 'rql-fixed-layer')
+            document.body.appendChild(this.el)
+        }
     }
 
     componentDidMount() {
-        window.addEventListener('scroll', () => {
-            this.removeDom()
-        })
-
-        window.addEventListener('resize', () => {
-            this.removeDom()
-        })
-
+        window.addEventListener('scroll', this.removeDom)
+        window.addEventListener('resize', this.removeDom)
         document.addEventListener('click', this.handleClick)
     }
 
     componentWillUnmount() {
         this.removeDom()
         document.removeEventListener('click', this.handleClick)
+        window.removeEventListener('scroll', this.removeDom)
+        window.removeEventListener('resize', this.removeDom)
     }
 
     handleClick = (e: any) => {
         const elem = e.target
-        const wrapElem: any = document.querySelector(`.${styles['rql-float-wrap']}`)
+        const wrapElem: any = document.querySelector(`#rql-fixed-layer`)
 
         if (!wrapElem || !wrapElem.contains(elem)) {
             this.removeDom()
@@ -74,4 +74,4 @@ class RqlFloatWrap extends React.Component<any, any> {
     }
 }
 
-export default RqlFloatWrap
+export default Fixedlayer
